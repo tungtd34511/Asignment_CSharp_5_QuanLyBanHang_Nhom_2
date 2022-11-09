@@ -1,0 +1,88 @@
+﻿@using Data.Entities;
+@model App.API.Infrastructure.ViewModels.Common.PagedResult<Size>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@section Scripts{
+	<script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+<div class="container-fluid px-4">
+	<h1 class="mt-4">Tables</h1>
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+		<li class="breadcrumb-item active">Danh Mục Kích Cỡ</li>
+	</ol>
+	@if (ViewBag.SuccessMsg != null)
+	{
+			<div id="msgAlert" class="alert alert-success" role="alert">
+				@ViewBag.SuccessMsg
+			</div>
+	}
+	<div class="card mb-4">
+		<div class="card-header">
+			<i class="fas fa-table me-1"></i>
+			Danh Mục Kích Cỡ
+		</div>
+		<div class="card-body">
+			<div class="card">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-md-3 col-xs-12">
+							<a class="btn btn-success" asp-action="Create" asp-controller="Size">Tạo mới</a>
+						</div>
+						<div class="col-md-9 col-xs-12">
+							<form asp-action="Index" method="get">
+								<div class="row">
+									<div class="col-md-5">
+									</div>
+									<div class="col-md-5">
+										<input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control"/>
+									</div>
+									<div class="col-md-2">
+										<button type="submit" class="btn btn-primary">Tìm</button>
+										<button type="button" onclick="window.location.href='/Color/Index'" class="btn btn-dark">Reset</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<table class="table-responsive table table-bordered">
+					<thead>
+					<tr>
+						<th>
+							Mã
+						</th>
+						<th>
+							Tên
+						</th>
+						<th>
+							Code
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach (var item in Model.Items)
+					{
+						<tr>
+							<td>@Html.DisplayFor(modelItem => item.Id)</td>
+							<td>@Html.DisplayFor(modelItem => item.Name)</td>
+							<td>@Html.DisplayFor(modelItem => item.Code)</td>
+							<td><a class="btn btn-primary" asp-route-id="@item.Id" asp-action="Edit">Sửa</a><td/>
+						</tr>
+					}
+					</tbody>
+				</table>
+				<div class="card-footer">
+					@(await Component.InvokeAsync("Pager",Model))
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>

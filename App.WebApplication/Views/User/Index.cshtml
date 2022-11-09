@@ -1,0 +1,82 @@
+﻿@model App.API.Infrastructure.ViewModels.Common.PagedResult<App.API.Infrastructure.ViewModels.System.Users.UserVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid px-4">
+	<h1 class="mt-4">Tables</h1>
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+		<li class="breadcrumb-item active">Quản Lý Người Dùng</li>
+	</ol>
+	@if (ViewBag.SuccessMsg != null)
+	{
+			<div id="msgAlert" class="alert alert-success" role="alert">
+				@ViewBag.SuccessMsg
+			</div>
+	}
+	<div class="card mb-4">
+		<div class="card-header">
+			<i class="fas fa-table me-1"></i>
+			Danh Sách Người Dùng
+		</div>
+		<div class="card-body">
+			<div class="card">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-md-6 col-xs-12">
+							<a class="btn btn-success" asp-action="Create" asp-controller="User">Tạo mới</a>
+						</div>
+						<div class="col-md-6 col-xs-12">
+							<form asp-action="Index" method="get">
+								<div class="row">
+									<div class="col-md-9">
+										<input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+									</div>
+									<div class="col-md-3">
+										<button type="submit" class="btn btn-primary">Tìm</button>
+										<button type="button" onclick="window.location.href='/User/Index'" class="btn btn-dark">Reset</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<table class="table-responsive table table-bordered">
+					<thead>
+					<tr>
+						<th>Họ và tên</th>
+						<th>Tài khoản</th>
+						<th>Số điện thoại</th>
+						<th>Email</th>
+						<th>Ngày sinh</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach (var item in Model.Items)
+					{
+						<tr>
+							<td>@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</td>
+							<td>@Html.DisplayFor(modelItem => item.UserName)</td>
+							<td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+							<td>@Html.DisplayFor(modelItem => item.Email)</td>
+							<td>@item.Dob.ToString("MM/dd/yyyy")</td>
+							<td><a class="btn btn-primary" asp-route-id="@item.Id" asp-action="Edit">Sửa</a></td>
+							<td><a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+							<td><a class="btn btn-danger " asp-route-id="@item.Id" asp-action="RoleAssign">Quyền</a></td>
+						</tr>
+					}
+					</tbody>
+				</table>
+				<div class="card-footer">
+					@(await Component.InvokeAsync("Pager",Model))
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>

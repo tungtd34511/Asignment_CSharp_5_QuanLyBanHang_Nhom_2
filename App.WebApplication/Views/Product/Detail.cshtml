@@ -1,0 +1,79 @@
+﻿@model App.WebApplication.Models.ProductDetailViewModel
+
+@{
+	ViewData["Title"] = "Detail";
+	Layout = "_ShopLayout2";
+}
+<div class="m-0 p-0 d-flex mt-3 mb-3">
+	<div class="col-7 row">
+		<div class="pro-img-list col-3">
+			<a href="#">
+				<img src="https://via.placeholder.com/115x100/87CEFA/000000" alt="">
+			</a>
+			<a href="#">
+				<img src="https://via.placeholder.com/115x100/FF7F50/000000" alt="">
+			</a>
+			<a href="#">
+				<img src="https://via.placeholder.com/115x100/20B2AA/000000" alt="">
+			</a>
+			<a href="#">
+				<img src="https://via.placeholder.com/120x100/20B2AA/000000" alt="">
+			</a>
+		</div>
+		<div class="pro-img-details col-9">
+			<img src="C:/Users/taduy/Desktop/Asignment_CSharp_5_QuanLyBanHang_Nhom_2/App.WebApplication/wwwroot/images/banner/vngoods_00_452442.webp" alt="">
+		</div>
+
+	</div>
+	<div class="col-5  ">
+		<h4 class="pro-d-title col-12 d-flex justify-content-start p-2 m-0">
+			<a href="#" class="">
+				@Model.Product.Name.ToUpper()
+			</a>
+		</h4>
+		<div class="w-100"></div>
+		<div class="posted_in d-flex justify-content-start p-2 m-0">
+			<strong>Categories:</strong>
+
+			@if (Model.Product.Categories != null && Model.Product.Categories.Count()>0)
+			{
+				foreach (var item in Model.Product.Categories)
+				{
+					<a rel="tag" href="#">
+						@item
+					</a>
+				}
+			}
+		</div>
+		<div class="w-100"></div>
+		<div class="tagged_as d-flex justify-content-start p-2 m-0"><strong>Tags:</strong><a rel="tag" href="#">@Model.Product.SeoAlias</a>.</div>
+		<div class="w-100"></div>
+		<div class="m-bot15 d-flex justify-content-start p-2 m-0">
+			<strong>Price : </strong> <span class="amount-old mr-2">$544</span>  <span class="pro-price">
+				@{
+					var price = Convert.ToInt32(Model.Product.Price);
+				}@price VNĐ</span></div>
+		<div class="w-100"></div>
+		<div class="d-flex justify-content-start p-2 m-0">
+			<div>
+				<div class="input-group quantity mx-auto justify-content-center">
+					<div class="input-group-btn">
+						<button class="btnMinus btn button button-xs button-secondary button-winona" id="">
+							<i class="fa fa-minus"></i>
+						</button>
+					</div>
+					<input id="Quantity" style="width: 70px;" type="text" class="  text-center" readonly="true" value="0">
+					<div class="input-group-btn">
+						<button class="btnPlus button button-xs button-secondary button-winona" id="">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="w-100 "></div>
+		<p class="d-flex justify-content-start p-2 m-0">
+			<button class="button button-xs button-secondary-2 button-winona" type="button">Add to Cart</button>
+		</p>
+	</div>
+</div>

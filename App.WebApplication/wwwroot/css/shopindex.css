@@ -1,0 +1,1 @@
+﻿.colors {    display: flex;    position: fixed;    bottom: 2em;    right: 2em;    z-index: 3;}.color {    height: 20px;    width: 20px;    margin-left: 0.5em;    border-radius: 10px;    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);    border: 2px solid #aaa;    cursor: pointer;}

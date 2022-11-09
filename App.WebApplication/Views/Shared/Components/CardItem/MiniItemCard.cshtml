@@ -1,0 +1,61 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Products
+@using Data.Entities
+@model ProductVm
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+	/*var a = */ /*"https://localhost:7100" + Model.ThumbnailImage ?*/
+	var a = "/images/b94f5226-370c-4d3f-a264-02a4d1a88a79.jpg";
+}
+<div class="col-sm-6 col-lg-4 col-xl-3">
+	<!-- Product-->
+	<article class="product wow fadeInLeft p-1 m-1" data-wow-delay=".15s">
+		<div class="product-figure p-0">
+			<picture>
+				<source srcset="@a" />
+				<img src="@a" alt="">
+			</picture>
+		</div>
+		<h6 class="product-title">@Model.Name.ToUpper()</h6>
+		<div class="product-price-wrap">
+			<div class="product-price">@Model.Price VNĐ</div>
+		</div>
+		<div class="product-button">
+			<div class="button-wrap">
+				<select id="@Model.Id" class="colours button button-xs button-default @Model.Id">
+					@{
+						var colors = Model.ProductVariationVms.Select(c => new Color()
+			{
+				Id = c.ColorId,
+				Name = c.ColorName,
+				HEXCode = c.ColorCode
+			}).DistinctBy(color => color.Id);
+						var sizes = (from sz in Model.ProductVariationVms.Where(c => c.ColorId == (colors.ToList())[0].Id)
+										select new Size()
+						 {
+							 Id = sz.SizeId,
+							 Name = sz.SizeName,
+							 Code = sz.SizeCode
+						 }).DistinctBy(size => size.Id);
+					}
+					@foreach (var size in colors)
+					{
+						<option value="@size.Id">@size.Name</option>
+					}
+				</select>
+			</div>
+			<div class="button-wrap">
+				<select id="@Model.Id" class="sizes button button-xs button-default @Model.Id">
+					@foreach (var size in sizes)
+					{
+						<option value="@size.Id">@size.Code</option>
+					}
+				</select>
+			</div>
+			<div class="button-wrap"><a class="btn-add-cart button button-xs button-primary button-winona" data-id="@Model.Id" href="#">Add to cart</a></div>
+			<div class="button-wrap"><a class="button button-xs button-secondary button-winona" asp-controller="Product" asp-action="Detail" asp-route-id="@Model.Id">View Product</a></div>
+		</div>
+	</article>
+</div>

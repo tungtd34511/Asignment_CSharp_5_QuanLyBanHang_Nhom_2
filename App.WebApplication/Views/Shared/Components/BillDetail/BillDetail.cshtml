@@ -1,0 +1,36 @@
+﻿@using App.API.Infrastructure.ViewModels.Sales
+@model CheckoutRequest
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="">
+    <h4 class="font-weight-semi-bold  card-header bg-secondary border-0">Billing Address</h4>
+    <div class="row text-left">
+        <div class="col-md-6 form-group ">
+            <label class="font-weight-bold ">First Name</label>
+            <input asp-for="FirstName" class="form-control"  placeholder="John">
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="font-weight-bold ">Last Name</label>
+            <input asp-for="LastName" class="form-control"  placeholder="Doe">
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="font-weight-bold ">E-mail</label>
+            <input asp-for="ShipEmail" class="form-control"  placeholder="example@email.com">
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="font-weight-bold ">Mobile No</label>
+            <input asp-for="ShipPhoneNumber" class="form-control"  placeholder="+123 456 789">
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="font-weight-bold ">Address</label>
+            <input asp-for="ShipAddress" class="form-control" placeholder="123 Street ...">
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="font-weight-bold ">Description</label>
+            <input asp-for="ShipName" class="form-control"  placeholder="You want something ?">
+        </div>
+    </div>
+</div>
