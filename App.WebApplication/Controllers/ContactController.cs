@@ -32,13 +32,13 @@ namespace App.WebApplication.Controllers
             {
                 if (await _contactApiClien.Add(contactsViewModel))
                 {
-                    TempData["res"] = "Thêm mới thành công";
+                    TempData["res"] = "thành công";
                     return RedirectToAction("Index");
                 }
             }
 
 
-            TempData["res"] = "Thêm mới thất bại";
+            TempData["res"] = "thất bại";
             return RedirectToAction("Index");
         }
 
@@ -47,11 +47,11 @@ namespace App.WebApplication.Controllers
         {
             if (await _contactApiClien.Delete(id))
             {
-                TempData["res"] = "Xóa thành công";
+                TempData["res"] = "thành công";
                 return RedirectToAction("Index");
             }
 
-            TempData["res"] = "Xóa thất bại";
+            TempData["res"] = "thất bại";
             return RedirectToAction("Index");
         }
 
@@ -79,13 +79,13 @@ namespace App.WebApplication.Controllers
             {
                 if (await _contactApiClien.Edit(contact.Id,contact))
                 {
-                    TempData["res"] = "Sửa thành công";
+                    TempData["res"] = "thành công";
                     return RedirectToAction("Index");
                 }
             }
 
 
-            TempData["res"] = "Sửa thất bại";
+            TempData["res"] = "thất bại";
             return RedirectToAction("Index");
         }
     }
