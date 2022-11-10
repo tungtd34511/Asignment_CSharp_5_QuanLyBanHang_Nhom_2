@@ -38,4 +38,19 @@
     <_ContentIncludedByDefault Remove="Views\Shared\Components\Pager\Default.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Contact\Edit.cshtml" />
+    <None Include="Views\Contact\Index.cshtml" />
+    <None Include="wwwroot\js\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\js\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\js\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\js\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\js\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\js\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\js\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\js\jquery\dist\jquery.js" />
+    <None Include="wwwroot\js\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\js\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+
 </Project>
