@@ -4,6 +4,7 @@ using App.API.Infrastructure.ViewModels.System.Users;
 using App.API.Services.Catalog.Carts;
 using App.API.Services.Catalog.Categories;
 using App.API.Services.Catalog.Colors;
+using App.API.Services.Catalog.Contacts;
 using App.API.Services.Catalog.Oders;
 using App.API.Services.Catalog.Products;
 using App.API.Services.Catalog.ProductVariations;
@@ -55,6 +56,7 @@ builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IProductVariationService, ProductVariationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IOderService, OderService>();
+builder.Services.AddTransient<IContactsServices, ContactsServices>();
 builder.Services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
