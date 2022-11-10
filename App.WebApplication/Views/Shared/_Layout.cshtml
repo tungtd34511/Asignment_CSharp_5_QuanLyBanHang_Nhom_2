@@ -98,6 +98,11 @@
                                     </nav>
                                 </div>
                             </nav>
+
+                            <div>
+                                <a class="nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
+                            </div>
+
                             </div>
                             <div class="sb-sidenav-menu-heading">Tiện ích</div>
                             <a class="nav-link" href="charts.html">
@@ -142,6 +147,9 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 		<script src="~/js/datatables-simple-demo.js"></script>
 		@await RenderSectionAsync("Scripts", required: false)
+        <script src="~/js/jquery/dist/jquery.js"></script>
+        <script src="~/js/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/js/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     </body>
 </html>
 
