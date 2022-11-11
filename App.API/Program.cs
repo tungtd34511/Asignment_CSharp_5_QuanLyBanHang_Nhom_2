@@ -10,6 +10,7 @@ using App.API.Services.Catalog.Products;
 using App.API.Services.Catalog.ProductVariations;
 using App.API.Services.Catalog.Promotions;
 using App.API.Services.Catalog.Sizes;
+using App.API.Services.Catalog.Transactions;
 using App.API.Services.Common;
 using App.API.Services.System.Languages;
 using App.API.Services.System.Roles;
@@ -33,11 +34,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddDbContext<QLBHContext>(options =>
-//    options.UseSqlServer(@"Data Source=TUNGHACK\SQLEXPRESS;Initial Catalog=DU_AN_QuanLyBanHang_Nhom2;Integrated Security=True"));
-
 builder.Services.AddDbContext<QLBHContext>(options =>
-    options.UseSqlServer(@"Data Source=WONN\SQLEXPRESS;Initial Catalog=QLBH_ASM_5;Persist Security Info=True;User ID=truong;Password=123456"));
+    options.UseSqlServer(@"Data Source=TUNGHACK\SQLEXPRESS;Initial Catalog=DU_AN_QuanLyBanHang_Nhom2;Integrated Security=True"));
 
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<QLBHContext>()
@@ -62,6 +60,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IOderService, OderService>();
 builder.Services.AddTransient<IContactsServices, ContactsServices>();
 builder.Services.AddTransient<IPromotionServices, PromotionServices>();
+builder.Services.AddTransient<ITransactionServices, TransactionServices>();
 builder.Services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 

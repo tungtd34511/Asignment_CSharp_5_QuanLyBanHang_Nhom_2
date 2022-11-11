@@ -10,6 +10,13 @@
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+<h1 class="mt-2">SLide</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Danh Mục slides</li>
+</ol>
+
 <div class="row border-1 shadow p-3 mb-5 bg-light rounded m-2">
 
     @if (ViewBag.message != null)
@@ -75,7 +82,7 @@
                         <td><img style="width:100px;height:100px;" src="/images/SlideImage/@x.Image" /></td>
                         <td>@x.Description</td>
                         <td>@x.SortOrder</td>
-                        <td><a asp-action="Delete" asp-route-id="@x.Id" class="btn btn-danger mb-3">Xóa</a>||<a asp-action="Edit" asp-route-id="@x.Id" class="btn btn-primary">Sửa</a></td>
+                        <td><a asp-action="Delete" asp-route-id="@x.Id" class="btn btn-danger">Xóa</a>||<a asp-action="Edit" asp-route-id="@x.Id" class="btn btn-primary">Sửa</a></td>
                     </tr>
                 }
             </tbody>

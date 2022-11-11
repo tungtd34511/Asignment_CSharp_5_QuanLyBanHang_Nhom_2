@@ -1,0 +1,67 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Transaction
+@using App.API.Infrastructure.ViewModels.System.Users
+@using Data.Entities
+@model TransactionAddRequest
+
+@{
+    ViewData["Title"] = "Index";
+    var lst = ViewData["lst"] as List<TransactionViewModel>;
+    int i = 0;
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<h1 class="mt-2">Giao dịch</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Danh Mục giao dịch</li>
+</ol>
+
+<div class="border-1 shadow p-3 mb-5 bg-light rounded m-2">
+
+    @if (ViewBag.message != null)
+    {
+        <script>
+            swal("Success", "", "success");
+        </script>
+    }
+
+    <div class="m-1">
+        <table class="table table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ngày giao dịch</th>
+                    <th>Id External</th>
+                    <th>Số lượng</th>
+                    <th>Phí</th>
+                    <th>Kết quả</th>
+                    <th>Message</th>
+                    <th>Tên người dùng</th>
+                    <th colspan="2">Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var x in lst)
+                {
+                    <tr>
+                        <td>@(++i)</td>
+                        <td>@x.TransactionDate</td>
+                        <td>@x.ExternalTransactionId</td>
+                        <td>@x.Amount</td>
+                        <td>@x.Fee</td>
+                        <td>@x.Result</td>
+                        <td>@x.Message</td>
+                        <td>@x.NameUser</td>
+                        <td><a asp-action="Delete" asp-route-id="@x.Id" class="btn btn-danger">Xóa</a>||<a asp-action="Edit" asp-route-id="@x.Id" class="btn btn-primary">Sửa</a></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+</div>

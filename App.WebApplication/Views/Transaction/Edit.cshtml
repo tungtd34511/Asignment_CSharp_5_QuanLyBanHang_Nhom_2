@@ -1,0 +1,77 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Transaction
+@using App.API.Infrastructure.ViewModels.System.Users
+@using Data.Entities
+@model TransactionEditRequest
+
+@{
+    var lstuser = ViewData["lstuser"] as List<UserViewModel>;
+}
+
+<h1 class="mt-2">Sửa giao dịch</h1>
+
+<div class="row border-1 shadow p-3 mb-5 bg-light rounded m-2 mt-3">
+    <form asp-action="Edit" method="post">
+
+        <div class="form-floating mb-3">
+            <input type="number" asp-for="Id" class="form-control" id="floatingInput" placeholder="Id" disabled>
+            <label for="floatingInput">Id</label>
+            <span class="text-danger" asp-validation-for="Id"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="date" asp-for="TransactionDate" class="form-control" id="floatingInput" placeholder="Ngày giao dịch">
+            <label for="floatingInput">Ngày giao dịch</label>
+            <span class="text-danger" asp-validation-for="TransactionDate"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="ExternalTransactionId" class="form-control" id="floatingInput" placeholder="Ngày bắt đầu">
+            <label for="floatingInput">Id External</label>
+            <span class="text-danger" asp-validation-for="ExternalTransactionId"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="number" asp-for="Amount" class="form-control" id="floatingInput" placeholder="số lượng">
+            <label for="floatingInput">số lượng</label>
+            <span class="text-danger" asp-validation-for="Amount"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="number" asp-for="Fee" class="form-control" id="floatingInput" placeholder="Phí">
+            <label for="floatingInput">Phí</label>
+            <span class="text-danger" asp-validation-for="Fee"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Result" class="form-control" id="floatingInput" placeholder="Kết quả">
+            <label for="floatingInput">Kết quả</label>
+            <span class="text-danger" asp-validation-for="Result"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Message" class="form-control" id="floatingInput" placeholder="Message">
+            <label for="floatingInput">Message</label>
+            <span class="text-danger" asp-validation-for="Message"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Provider" class="form-control" id="floatingInput" placeholder="Nhà cung cấp">
+            <label for="floatingInput">Nhà cung cấp</label>
+            <span class="text-danger" asp-validation-for="Provider"></span>
+        </div>
+
+        <select class="form-select mb-3" aria-label="Default select example" asp-for="UserId">
+            @foreach (var item in lstuser)
+            {
+                <option value="@item.id">@item.ten</option>
+            }
+        </select>
+
+        <div>
+            <button type="submit" class="btn btn-success">Lưu thông tin</button>
+            <a class="btn btn-secondary">Danh sách gia dịch</a>
+        </div>
+
+    </form>
+</div>
+

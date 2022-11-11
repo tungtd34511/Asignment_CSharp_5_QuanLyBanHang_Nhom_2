@@ -100,5 +100,12 @@ namespace App.API.Controllers
             var result = await _userService.Delete(id);
             return Ok(result);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<List<UserViewModel>> GetNameId()
+        {
+            return await _userService.GetNameId();
+        }
     }
 }
