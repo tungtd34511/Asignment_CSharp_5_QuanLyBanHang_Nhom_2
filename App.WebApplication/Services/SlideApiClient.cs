@@ -1,27 +1,62 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using App.API.Infrastructure.ViewModels.Utilities.Slides;
+﻿using App.API.Infrastructure.ViewModels.Utilities.Slides;
 using App.WebApplication.IServices;
-using App.WebApplication.Services;
+using Data.Entities;
+using Microsoft.AspNetCore.Mvc;
+using MVC.Helper;
+using System.Net.Http.Json;
 
 namespace App.WebApplication.Services
 {
-    public class SlideApiClient : BaseApiClient, ISlideApiClient
+    public class SlideApiClient : ISlideApiClient
     {
-        public SlideApiClient(IHttpClientFactory httpClientFactory,
-                   IHttpContextAccessor httpContextAccessor,
-                    IConfiguration configuration)
-            : base(httpClientFactory, httpContextAccessor, configuration)
+        CallApi _helper;
+
+        public SlideApiClient()
         {
+            _helper = new CallApi();
         }
 
-        public async Task<List<SlideVm>> GetAll()
+        public async Task<bool> Add(SlideAddRequest request)
         {
-            return await GetListAsync<SlideVm>("/api/slides");
+            var res = await _helper.Initial().PostAsJsonAsync("api/Slides",request);
+
+            if (res.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            var res = await _helper.Initial().DeleteAsync("api/Slides/" + id);
+
+            if (res.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> Edit(int id, SlideEditRequest request)
+        {
+            var res = await _helper.Initial().PutAsJsonAsync("api/Slides/" + id, request);
+
+            if (res.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<List<Slide>> GetAll()
+        {
+            return await _helper.Initial().GetFromJsonAsync<List<Slide>>("api/Slides"); ;
+        }
+
+        public async Task<Slide> GetById(int id)
+        {
+            return await _helper.Initial().GetFromJsonAsync<Slide>("api/Slides/" + id);
         }
     }
 }

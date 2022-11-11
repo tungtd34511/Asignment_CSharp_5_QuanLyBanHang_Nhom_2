@@ -25,7 +25,8 @@ namespace Data.DbContext
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder.UseSqlServer(@"Data Source=TUNGHACK\SQLEXPRESS;Initial Catalog=DU_AN_QuanLyBanHang_Nhom2;Integrated Security=True"));
+            //base.OnConfiguring(optionsBuilder.UseSqlServer(@"Data Source=TUNGHACK\SQLEXPRESS;Initial Catalog=DU_AN_QuanLyBanHang_Nhom2;Integrated Security=True"));
+            base.OnConfiguring(optionsBuilder.UseSqlServer(@"Data Source=WONN\SQLEXPRESS;Initial Catalog=QLBH_ASM_5;Persist Security Info=True;User ID=truong;Password=123456"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

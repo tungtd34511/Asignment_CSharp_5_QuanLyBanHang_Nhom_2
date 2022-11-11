@@ -1,0 +1,46 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Promotion
+@using Data.Entities
+@model SlideModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="col-3">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="id" class="form-control" id="floatingInput" placeholder="Id" disabled>
+            <label for="floatingInput">Id</label>
+            <span class="text-danger" asp-validation-for="id"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Name" class="form-control" id="floatingInput" placeholder="Tên">
+            <label for="floatingInput">Tên</label>
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="file" asp-for="ImageFile" class="form-control" id="floatingInput">
+            <span class="text-danger" asp-validation-for="ImageFile"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Description" class="form-control" id="floatingInput" placeholder="Mô tả">
+            <label for="floatingInput">Mô tả</label>
+            <span class="text-danger" asp-validation-for="Description"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="number" asp-for="SortOrder" class="form-control" id="floatingInput" placeholder="Thứ tự sắp xếp">
+            <label for="floatingInput">Thứ tự sắp xếp</label>
+            <span class="text-danger" asp-validation-for="SortOrder"></span>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-success">Lưu thông tin</button>
+        </div>
+
+    </form>
+</div>
+

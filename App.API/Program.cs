@@ -33,8 +33,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Services.AddDbContext<QLBHContext>(options =>
+//    options.UseSqlServer(@"Data Source=TUNGHACK\SQLEXPRESS;Initial Catalog=DU_AN_QuanLyBanHang_Nhom2;Integrated Security=True"));
+
 builder.Services.AddDbContext<QLBHContext>(options =>
-    options.UseSqlServer(@"Data Source=TUNGHACK\SQLEXPRESS;Initial Catalog=DU_AN_QuanLyBanHang_Nhom2;Integrated Security=True"));
+    options.UseSqlServer(@"Data Source=WONN\SQLEXPRESS;Initial Catalog=QLBH_ASM_5;Persist Security Info=True;User ID=truong;Password=123456"));
 
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<QLBHContext>()
