@@ -49,6 +49,8 @@ builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 builder.Services.AddTransient<IProductVariationApiClient, ProductVariationApiClient>();
 builder.Services.AddTransient<ICartApiClient, CartApiClient>();
 builder.Services.AddTransient<IContactApiClien, ContactsApiClient>();
+builder.Services.AddTransient<IPromotionApiClient, PromotionApiClient>();
+
 // WebSevice
 var cultures = new[]
 {

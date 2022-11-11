@@ -8,6 +8,7 @@ using App.API.Services.Catalog.Contacts;
 using App.API.Services.Catalog.Oders;
 using App.API.Services.Catalog.Products;
 using App.API.Services.Catalog.ProductVariations;
+using App.API.Services.Catalog.Promotions;
 using App.API.Services.Catalog.Sizes;
 using App.API.Services.Common;
 using App.API.Services.System.Languages;
@@ -57,6 +58,7 @@ builder.Services.AddTransient<IProductVariationService, ProductVariationService>
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IOderService, OderService>();
 builder.Services.AddTransient<IContactsServices, ContactsServices>();
+builder.Services.AddTransient<IPromotionServices, PromotionServices>();
 builder.Services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
