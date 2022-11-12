@@ -23,5 +23,7 @@ namespace App.API.Services.System.Users
         Task<ApiResult<bool>> Delete(Guid id);
 
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
+
+        Task<List<UserViewModel>> GetNameId();
     }
 }

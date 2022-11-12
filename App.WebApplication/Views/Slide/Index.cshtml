@@ -1,0 +1,94 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Promotion
+@using Data.Entities
+@model SlideModel
+
+@{
+    ViewData["Title"] = "Index";
+    var lst = ViewData["lst"] as List<Slide>;
+    int i = 0;
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<h1 class="mt-2">SLide</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Danh Mục slides</li>
+</ol>
+
+<div class="row border-1 shadow p-3 mb-5 bg-light rounded m-2">
+
+    @if (ViewBag.message != null)
+    {
+        <script>
+            swal("Success", "", "success");
+        </script>
+    }
+
+    <div class="col-3">
+        <form asp-action="Add" method="post" enctype="multipart/form-data">
+
+            <div class="form-floating mb-3">
+                <input type="text" asp-for="Name" class="form-control" id="floatingInput" placeholder="Tên">
+                <label for="floatingInput">Tên</label>
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="file" asp-for="ImageFile" class="form-control" id="floatingInput">
+                <span class="text-danger" asp-validation-for="ImageFile"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" asp-for="Description" class="form-control" id="floatingInput" placeholder="Mô tả">
+                <label for="floatingInput">Mô tả</label>
+                <span class="text-danger" asp-validation-for="Description"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="number" asp-for="SortOrder" class="form-control" id="floatingInput" placeholder="Thứ tự sắp xếp">
+                <label for="floatingInput">Thứ tự sắp xếp</label>
+                <span class="text-danger" asp-validation-for="SortOrder"></span>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success">Thêm</button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-9">
+        <table class="table table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên</th>
+                    <th>Ảnh</th>
+                    <th>Mô tả</th>
+                    <th>Thứ tự sắp xếp</th>
+                    <th colspan="2">Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var x in lst)
+                {
+                    <tr>
+                        <td>@(++i)</td>
+                        <td>@x.Name</td>
+                        <td><img style="width:100px;height:100px;" src="/images/SlideImage/@x.Image" /></td>
+                        <td>@x.Description</td>
+                        <td>@x.SortOrder</td>
+                        <td><a asp-action="Delete" asp-route-id="@x.Id" class="btn btn-danger">Xóa</a>||<a asp-action="Edit" asp-route-id="@x.Id" class="btn btn-primary">Sửa</a></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+

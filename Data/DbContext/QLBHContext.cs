@@ -26,6 +26,7 @@ namespace Data.DbContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder.UseSqlServer(@"Data Source=TUNGHACK\SQLEXPRESS;Initial Catalog=DU_AN_QuanLyBanHang_Nhom2;Integrated Security=True"));
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

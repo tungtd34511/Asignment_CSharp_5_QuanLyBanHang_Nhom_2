@@ -1,0 +1,69 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Promotion
+@model PromotionEditRequest
+
+  
+<h1 class="mt-2">Khuyến mãi</h1>
+
+  <div class="border-1 shadow p-3 mb-5 bg-light rounded m-2 mt-3">
+        <form asp-action="Edit" method="post">
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="Id" class="form-control" id="floatingInput" placeholder="Id" disabled>
+              <label for="floatingInput">Id</label>
+              <span class="text-danger" asp-validation-for="Id"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" asp-for="Name" class="form-control" id="floatingInput" placeholder="Tên">
+              <label for="floatingInput">Tên</label>
+              <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="date" asp-for="FromDate" class="form-control" id="floatingInput" placeholder="Ngày bắt đầu">
+              <label for="floatingInput">Ngày bắt đầu</label>
+              <span class="text-danger" asp-validation-for="FromDate"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="date" asp-for="ToDate" class="form-control" id="floatingInput" placeholder="Ngày kết thúc">
+              <label for="floatingInput">Ngày kết thúc</label>
+              <span class="text-danger" asp-validation-for="ToDate"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="number" asp-for="DiscountAmount" class="form-control" id="floatingInput" placeholder="Mức giảm">
+              <label for="floatingInput">Mức giảm</label>
+              <span class="text-danger" asp-validation-for="DiscountAmount"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="number" asp-for="DiscountPercent" class="form-control" id="floatingInput" placeholder="Phần trăm triết khấu">
+              <label for="floatingInput">Phần trăm triết khấu</label>
+              <span class="text-danger" asp-validation-for="DiscountPercent"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="ProductCategoryIds" class="form-control" id="floatingInput" placeholder="Danh mục sản phẩm">
+              <label for="floatingInput">Danh mục sản phẩm</label>
+              <span class="text-danger" asp-validation-for="ProductCategoryIds"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="ProductIds" class="form-control" id="floatingInput" placeholder="Sản Phẩm">
+              <label for="floatingInput">Sản phẩm</label>
+              <span class="text-danger" asp-validation-for="ProductIds"></span>
+            </div>
+
+             <div class="mb-3">
+              <input type="checkbox" asp-for="ApplyForAll">
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success">Lưu thông tin</button>
+            </div>
+
+        </form>
+    </div>
+
+

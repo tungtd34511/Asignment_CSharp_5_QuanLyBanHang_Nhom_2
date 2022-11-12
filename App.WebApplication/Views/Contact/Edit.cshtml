@@ -1,0 +1,45 @@
+﻿@using Data.Entities
+@using App.API.Infrastructure.ViewModels.Catalog.Contacts
+@model ContactEditRequest
+
+<h1 class="mt-2">Liên hệ</h1>
+
+<div class="border-1 shadow p-3 mb-5 bg-light rounded m-2 mt-3">
+        <form asp-action="Edit" method="post">
+
+            <div class="form-floating mb-3">
+              <input type="text" asp-for="Id" class="form-control" id="floatingInput" placeholder="Id" disabled>
+              <label for="floatingInput">Id</label>
+              <span class="text-danger" asp-validation-for="Id"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" asp-for="Name" class="form-control" id="floatingInput" placeholder="Tên">
+              <label for="floatingInput">Tên</label>
+              <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="Email" class="form-control" id="floatingInput" placeholder="Email">
+              <label for="floatingInput">Email</label>
+              <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="PhoneNumber" class="form-control" id="floatingInput" placeholder="Số điện thoại">
+              <label for="floatingInput">Số điện thoại</label>
+              <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="Message" class="form-control" id="floatingInput" placeholder="Tin nhắn">
+              <label for="floatingInput">Tin nhắn</label>
+              <span class="text-danger" asp-validation-for="Message"></span>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success">Lưu thông tin</button>
+            </div>
+
+        </form>
+</div>

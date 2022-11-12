@@ -98,6 +98,23 @@
                                     </nav>
                                 </div>
                             </nav>
+
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" asp-controller="Contact" asp-action="Index">Liên hệ</a>
+                            </nav>
+
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" asp-controller="Promotion" asp-action="Index">Khuyến mãi</a>
+                            </nav>
+
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" asp-controller="Slide" asp-action="Index">Ảnh slide</a>
+                            </nav>
+
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link" asp-controller="Transaction" asp-action="Index">Giao dịch</a>
+                            </nav>
+
                             </div>
                             <div class="sb-sidenav-menu-heading">Tiện ích</div>
                             <a class="nav-link" href="charts.html">
@@ -142,6 +159,9 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 		<script src="~/js/datatables-simple-demo.js"></script>
 		@await RenderSectionAsync("Scripts", required: false)
+        <script src="~/js/jquery/dist/jquery.js"></script>
+        <script src="~/js/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/js/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     </body>
 </html>
 

@@ -1,0 +1,97 @@
+﻿@using Data.Entities
+@using App.API.Infrastructure.ViewModels.Catalog.Contacts
+@model ContactAddRequest
+
+@{
+    ViewData["Title"] = "Index";
+    var lst = ViewData["lst"] as List<Contact>;
+    int i = 0;
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<h1 class="mt-2">Liên hệ</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Danh mục liên hệ</li>
+</ol>
+
+<div class="row border-1 shadow p-3 mb-5 bg-light rounded m-2">
+
+    @if (ViewBag.message != null)
+    {
+        <script>
+            swal("Success", "", "success");
+        </script>
+    }
+
+    <div class="col-3">
+        <form asp-action="Add" method="post">
+
+            <div class="form-floating mb-3">
+              <input type="text" asp-for="Name" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
+              <label for="floatingInput">Tên</label>
+              <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="Email" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
+              <label for="floatingInput">Email</label>
+              <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="PhoneNumber" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
+              <label for="floatingInput">Số điện thoại</label>
+              <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+            </div>
+
+             <div class="form-floating mb-3">
+              <input type="text" asp-for="Message" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
+              <label for="floatingInput">Tin nhắn</label>
+              <span class="text-danger" asp-validation-for="Message"></span>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success">Thêm</button>
+            </div>
+
+        </form>
+    </div>
+
+     <div class="col-9">
+         <table class="table table-bordered table-hover">
+
+             <thead>
+                 <tr>
+                     <th>#</th>
+                     <th>Tên</th>
+                     <th>Email</th>
+                     <th>Số điện thoại</th>
+                     <th>Tin nhắn</th>
+                     <th colspan="2">Thao tác</th>
+                 </tr>
+             </thead>
+
+             <tbody>
+                @foreach (var x in lst)
+                {
+                                    <tr>
+                                        <td>@(++i)</td>
+                                        <td>@x.Name</td>
+                                        <td>@x.Email</td>
+                                        <td>@x.PhoneNumber</td>
+                                        <td>@x.Message</td>
+
+                                        <td><a asp-action="Delete" asp-route-id="@x.Id" class="btn btn-danger">Xóa</a>||<a asp-action="Edit" asp-route-id="@x.Id" class="btn btn-primary">Sửa</a></td>
+                                    </tr>
+                }
+             </tbody>
+
+         </table>
+    </div>
+
+</div>
+
+
