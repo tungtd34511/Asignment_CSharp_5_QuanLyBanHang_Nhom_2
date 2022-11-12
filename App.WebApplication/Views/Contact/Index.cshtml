@@ -3,6 +3,7 @@
 @model ContactAddRequest
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Index";
     var lst = ViewData["lst"] as List<Contact>;
     int i = 0;
@@ -30,27 +31,27 @@
         <form asp-action="Add" method="post">
 
             <div class="form-floating mb-3">
-              <input type="text" asp-for="Name" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
-              <label for="floatingInput">Tên</label>
-              <span class="text-danger" asp-validation-for="Name"></span>
+                <input type="text" asp-for="Name" class="form-control" id="floatingInput" placeholder="Tên">
+                <label for="floatingInput">Tên</label>
+                <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
-             <div class="form-floating mb-3">
-              <input type="text" asp-for="Email" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
-              <label for="floatingInput">Email</label>
-              <span class="text-danger" asp-validation-for="Email"></span>
+            <div class="form-floating mb-3">
+                <input type="text" asp-for="Email" class="form-control" id="floatingInput" placeholder="Email">
+                <label for="floatingInput">Email</label>
+                <span class="text-danger" asp-validation-for="Email"></span>
             </div>
 
-             <div class="form-floating mb-3">
-              <input type="text" asp-for="PhoneNumber" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
-              <label for="floatingInput">Số điện thoại</label>
-              <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+            <div class="form-floating mb-3">
+                <input type="text" asp-for="PhoneNumber" class="form-control" id="floatingInput" placeholder="Số điện thoại">
+                <label for="floatingInput">Số điện thoại</label>
+                <span class="text-danger" asp-validation-for="PhoneNumber"></span>
             </div>
 
-             <div class="form-floating mb-3">
-              <input type="text" asp-for="Message" class="form-control" id="floatingInput" placeholder="Nhãn hiệu">
-              <label for="floatingInput">Tin nhắn</label>
-              <span class="text-danger" asp-validation-for="Message"></span>
+            <div class="form-floating mb-3">
+                <input type="text" asp-for="Message" class="form-control" id="floatingInput" placeholder="Tin nhắn">
+                <label for="floatingInput">Tin nhắn</label>
+                <span class="text-danger" asp-validation-for="Message"></span>
             </div>
 
             <div>

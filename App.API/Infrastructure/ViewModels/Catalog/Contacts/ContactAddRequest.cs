@@ -9,9 +9,11 @@ namespace App.API.Infrastructure.ViewModels.Catalog.Contacts
         public string Name { set; get; }
 
         [Required(ErrorMessage = "Không được để trống email")]
+        [RegularExpression("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", ErrorMessage = "Email sai định dạng")]
         public string Email { set; get; }
 
         [Required(ErrorMessage = "Không được để trống số điện thoại")]
+        [RegularExpression("^0-9", ErrorMessage = "Số điện thoại không được nhập chữ")]
         public string PhoneNumber { set; get; }
 
         [Required(ErrorMessage = "Không được để trống tin nhắn")]

@@ -4,6 +4,7 @@
 @model TransactionEditRequest
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var lstuser = ViewData["lstuser"] as List<UserViewModel>;
 }
 
@@ -26,7 +27,7 @@
 
         <div class="form-floating mb-3">
             <input type="text" asp-for="ExternalTransactionId" class="form-control" id="floatingInput" placeholder="Ngày bắt đầu">
-            <label for="floatingInput">Id External</label>
+            <label for="floatingInput">Ngày bắt đầu</label>
             <span class="text-danger" asp-validation-for="ExternalTransactionId"></span>
         </div>
 
@@ -55,7 +56,7 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" asp-for="Provider" class="form-control" id="floatingInput" placeholder="Nhà cung cấp">
+            <input type="text" asp-for="Provider" class="form-control" id="floatingInput" placeholder="Nhà cung cấp">\
             <label for="floatingInput">Nhà cung cấp</label>
             <span class="text-danger" asp-validation-for="Provider"></span>
         </div>
@@ -69,7 +70,7 @@
 
         <div>
             <button type="submit" class="btn btn-success">Lưu thông tin</button>
-            <a class="btn btn-secondary">Danh sách gia dịch</a>
+            <a asp-action="Index" class="btn btn-secondary">Danh sách giao dịch</a>
         </div>
 
     </form>

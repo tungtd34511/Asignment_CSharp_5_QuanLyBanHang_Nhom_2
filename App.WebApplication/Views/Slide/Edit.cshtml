@@ -3,6 +3,7 @@
 @model SlideModel
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Edit";
 }
 
@@ -12,7 +13,6 @@
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <div class="form-floating mb-3">
             <input type="text" asp-for="id" class="form-control" id="floatingInput" placeholder="Id" disabled>
-            <label for="floatingInput">Id</label>
             <span class="text-danger" asp-validation-for="id"></span>
         </div>
 
@@ -41,6 +41,7 @@
 
         <div>
             <button type="submit" class="btn btn-success">Lưu thông tin</button>
+            <a asp-action="Index" class="btn btn-secondary">Danh sách slide</a>
         </div>
 
     </form>

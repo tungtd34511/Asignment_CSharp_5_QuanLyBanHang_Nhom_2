@@ -5,12 +5,12 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="p-2">
+
 <h1>Create</h1>
 
 <h4>Color</h4>
 <hr />
-<div class="row">
+    <div class="row border-1 shadow p-3 mb-5 bg-light rounded m-2">
     <div class="col-md-4">
         <form asp-controller="Color"  asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -26,13 +26,10 @@
             </div>
             <div class="form-group">
                 <button type="submit"  class="btn btn-primary" >Create</button>
+                <a class="btn btn-secondary" asp-action="Index">Danh sách màu</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-</div>
 

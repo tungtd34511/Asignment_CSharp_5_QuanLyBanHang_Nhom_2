@@ -4,6 +4,7 @@
 @model TransactionAddRequest
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Index";
     var lst = ViewData["lst"] as List<TransactionViewModel>;
     int i = 0;

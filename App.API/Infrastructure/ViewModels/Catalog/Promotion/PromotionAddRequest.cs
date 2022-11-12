@@ -14,9 +14,11 @@ namespace App.API.Infrastructure.ViewModels.Catalog.Promotion
         public bool ApplyForAll { set; get; }
 
         [Required(ErrorMessage = "Phần trăm chiết khấu không được để trống")]
+        [RegularExpression("^0-9", ErrorMessage = "DiscountPercent không được nhập chữ")]
         public int? DiscountPercent { set; get; }
 
         [Required(ErrorMessage = "Giam giá không được để trống")]
+        [RegularExpression("^0-9", ErrorMessage = "DiscountAmount không được nhập chữ")]
         public decimal? DiscountAmount { set; get; }
 
         [Required(ErrorMessage = "Sản phẩm không được để trống")]
