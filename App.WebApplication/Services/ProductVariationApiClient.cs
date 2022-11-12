@@ -61,6 +61,7 @@ namespace App.WebApplication.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var requestContent = new MultipartFormDataContent();
+            requestContent.Add(new StringContent(request.Id.ToString()), "id");
             requestContent.Add(new StringContent(request.ProductId.ToString()), "productId");
             requestContent.Add(new StringContent(request.ColorId.ToString()), "colorId");
             requestContent.Add(new StringContent(request.SizeId.ToString()), "sizeid");

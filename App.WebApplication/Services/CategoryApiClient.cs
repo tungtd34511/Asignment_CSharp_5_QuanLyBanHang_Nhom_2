@@ -20,7 +20,7 @@ namespace App.WebApplication.Services
         {
         }
 
-        public async Task<List<CategoryVm>> GetAll(string languageId)
+        public async Task<List<CategoryVm>> GetAll(string? languageId)
         {
             return await GetListAsync<CategoryVm>("/api/categories?languageId=" + languageId);
         }

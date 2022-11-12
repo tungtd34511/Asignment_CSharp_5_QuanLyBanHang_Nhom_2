@@ -1,0 +1,177 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Categories
+@using App.API.Infrastructure.ViewModels.Catalog.Products
+@using App.API.Infrastructure.ViewModels.Common
+@using Data.Entities;
+@model ShopingResult
+@{
+	int i = 0;
+}
+@section Scripts{
+	<script src="~/js/shopping.js"></script>
+	<script>
+		$('body').on('click', '.btn-add-cart', function (e) {
+			e.preventDefault();
+			const id1 = $(this).data('id');
+			const id2 = $(this).parents(".product-button").find("select.colours").children("option:selected").val()
+			const id3 = $(this).parents(".product-button").find("select.sizes").children("option:selected").val()
+			alert("id1:" + id1 + "id2:" + id2 + "id3:" + id3);
+			$.ajax({
+				type: "POST",
+				url: '/Cart/AddToCart',
+				data: {
+					id1: id1,
+					id2: id2,
+					id3: id3,
+					stok: 1,
+					languageId: "vi"
+				},
+				success: function () {
+					loadquatity();
+					message("SUCCESS", "Thêm sản phẩm thành công !");
+				},
+				error: function (err) {
+					message("ERROR", err);
+				}
+			});
+		})
+	</script>
+}
+	<!-- Shop Start -->
+	<div class="container-fluid pt-5">
+		<form asp-action="Shopping" method="post" class="from-shoping row px-xl-5 ">
+			<!-- Shop Sidebar Start -->
+
+			<div class="col-lg-3 col-md-6   wow  fadeInLeft">
+				<!-- Price Start -->
+				<div class="border-bottom mb-4 pb-4">
+					<h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
+					<div>
+					@foreach (var item in ViewBag.Prices as IEnumerable<SelectListItem>)
+					{
+						<div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+							<input class="h6" asp-for="Checklists[i].Check" onclick="this.form.submit()" />@item.Value<br />
+						</div>
+						i++;
+					}
+
+				</div>
+			</div>
+			<!-- Price End -->
+			<!-- Color Start -->
+			<div class="border-bottom mb-4 pb-4">
+				<h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
+				<div>
+					@foreach (var item in ViewBag.Categories as IEnumerable<SelectListItem>)
+					{
+						<div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+							<input class="h6" asp-for="Checklists[i].Check" onclick="this.form.submit()" />@item.Value<br />
+						</div>
+						i++;
+					}
+				</div>
+			</div>
+			<!-- Color End -->
+			<!-- Size Start -->
+			<div class="mb-5">
+				<h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
+				<div>
+					@foreach (var item in ViewBag.Sizes as IEnumerable<SelectListItem>)
+					{
+						<div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+							<input class="h6" asp-for="Checklists[i].Check" onclick="this.form.submit()" />@item.Value<br />
+						</div>
+						i++;
+					}
+				</div>
+			</div>
+			<!-- Size End -->
+			<!-- Size Start -->
+			<div class="mb-5">
+				<h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
+				<div>
+					@foreach (var item in ViewBag.Colors as IEnumerable<SelectListItem>)
+					{
+						<div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+							<input class="h6" asp-for="Checklists[i].Check" onclick="this.form.submit()" />@item.Value<br />
+						</div>
+						i++;
+					}
+				</div>
+			</div>
+			<!-- Size End -->
+		</div>
+		<!-- Shop Sidebar End -->
+		<!-- Shop Product Start -->
+		<div class="col-lg-9 col-md-12">
+			<div class="row pb-3">
+				<div class="col-12 pb-1">
+					<div class="d-flex flex-row  justify-content-end mb-4 pr-4">
+						<label class="  ">
+							<label class="font-weight-bold text-black p-2 m-2 ">@(Model.Items.Count()) Result</label>
+						</label>
+						<div class="">
+							<input class="p-2 m-2" asp-for="Keyword" class="form-control" />
+						</div>
+						<div class="col-md-2 d-flex flex-row">
+							<button type="submit" class="btn btn-primary p-2 m-2">Search</button>
+							<button type="button" onclick="window.location.href='/Shop/Shopping'" class="btn btn-sucess p-2 m-2">Reset</button>
+						</div>
+					</div>
+				</div>
+				<hr />
+				@foreach (var item in Model.Items)
+				{
+					@(await Component.InvokeAsync("CardItem", item))
+				}
+				<hr />
+				<div class="col-12 pb-1">
+
+
+					@{
+						var startIndex = Math.Max(Model.PageIndex - 5, 1);
+						var finishIndex = Math.Min(Model.PageIndex + 5, Model.PageCount);
+					}
+					@if (Model.PageCount > 0)
+					{
+						<ul class="pagination">
+							@if (Model.PageIndex != startIndex)
+							{
+								<li class="page-item">
+									<a class="page-index button button-xs button-secondary button-winona" href="#" data-id="1">Đầu</a>
+								</li>
+								<li class="page-item">
+									<a class="page-index button button-xs button-secondary button-winona" href="#" data-id="@(Model.PageIndex-1)">Trước</a>
+								</li>
+							}
+							@for (var l = startIndex; l <= finishIndex; l++)
+							{
+								if (l == Model.PageIndex)
+								{
+									<li class="page-item active">
+										<a class="page-index button button-xs button-secondary button-winona" data-id="@l " href="#">@l <span class="sr-only">(current)</span></a>
+									</li>
+								}
+								else
+								{
+									<li class="page-item "><a class="page-index button button-xs button-secondary button-winona" href="#" data-id="@l " title="Trang @l.ToString()">@i</a></li>
+								}
+							}
+							@if (Model.PageIndex != finishIndex)
+							{
+								<li class="page-item">
+									<a class="page-index button button-xs button-secondary button-winona" data-id="@(Model.PageIndex+1)" href="#" title="@Model.PageCount.ToString()"><></>Sau</a>
+								</li>
+								<li class="page-item">
+									<a class="page-index button button-xs button-secondary button-winona" href="#" data-id="@finishIndex">Cuối</a>
+								</li>
+							}
+						</ul>
+					}
+
+				</div>
+			</div>
+		</div>
+		<!-- Shop Product End -->
+	</form>
+</div>
+<!-- Shop End -->

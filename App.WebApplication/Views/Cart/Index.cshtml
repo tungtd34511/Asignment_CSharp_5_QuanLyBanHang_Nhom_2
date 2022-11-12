@@ -10,12 +10,6 @@
 	var sumtotal = 0;
 }
 @section StyleSheets{
-	<style>
-		.imgprd {
-			width: 50px;
-			height: 50px;
-		}
-	</style>
 }
 	@section Scripts{
 	<script src="~/js/cart.js"></script>
@@ -68,7 +62,7 @@
 							<td class="align-middle">
 								<div class="d-flex flex-row ">
 									<div style="max-width:400px;">
-										<img class="imgprd img-circle" src="@a" alt="">
+										<img class="imgprd img-circle" src="@a" alt="@a" style="max-width: 50px; max-height: 50px; object-fit: cover;">
 										<span>
 											@item.Name @item.ColorName (@item.SizeCode)
 										</span>
@@ -83,7 +77,7 @@
 											<i class="fa fa-minus"></i>
 										</button>
 									</div>
-									<input id="Quantity" style="width: 50px;" type="text" class="@line  text-center" readonly="true" value="@item.Quantity">
+									<input id="Quantity" style="width: 50px;border:1px solid #ffe745;" type="text" class="@line  text-center" readonly="true" value="@item.Quantity">
 									<div class="input-group-btn">
 										<button class="btnPlus button button-xs button-secondary button-winona" id="@id">
 											<i class="fa fa-plus"></i>

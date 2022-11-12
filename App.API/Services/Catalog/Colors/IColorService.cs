@@ -16,5 +16,6 @@ namespace App.API.Services.Catalog.Colors
 
         Task<Color> GetById(int id);
         Task<PagedResult<Color>> GetAllPaging(GetManageColorPagingRequest request);
+        Task<List<Color>> GetAll();
     }
 }

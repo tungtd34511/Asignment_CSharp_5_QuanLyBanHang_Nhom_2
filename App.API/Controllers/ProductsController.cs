@@ -27,6 +27,12 @@ namespace App.API.Controllers
             var products = await _productService.GetAllPaging(request);
             return Ok(products);
         }
+        [HttpPost("paging2")]
+        public async Task<IActionResult> GetAllPaging2(GetManageProductPagingRequest request)
+        {
+            var products = await _productService.GetAllPaging(request);
+            return Ok(products);
+        }
 
         [HttpGet("{productId}/{languageId}")]
         public async Task<IActionResult> GetById(int productId, string languageId)

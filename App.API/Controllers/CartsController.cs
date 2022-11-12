@@ -77,7 +77,7 @@ namespace App.API.Controllers
             var cart = await _context.Carts.FirstOrDefaultAsync(c=>c.ProductVariationId==pv.Id && c.UserId==request.UserId);
             if (cart != null)
             {
-                cart.Quantity++;
+                cart.Quantity+=request.Stock;
                 await _cartService.UpdateCart(cart);
                 return Ok();
             } 
@@ -116,10 +116,10 @@ namespace App.API.Controllers
             return Ok();
         }
 
-        [HttpPost("delete-cart")]
+        [HttpDelete("delete-cart/{userId}")]
         public async Task<IActionResult> Delete(Guid userId)
         {
-            var affectedResult = await _cartService.DeleteById(userId);
+            var affectedResult = await _cartService.DeleteByUser(userId);
             if (!affectedResult)
                 return BadRequest();
             return Ok();

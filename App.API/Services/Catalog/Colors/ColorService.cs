@@ -30,7 +30,10 @@ namespace App.API.Services.Catalog.Colors
             await _context.SaveChangesAsync();
             return color.Id;
         }
-
+        public async Task<List<Color>> GetAll()
+        {
+            return await _context.Colors.ToListAsync();
+        }
         public async Task<int> Update(UpdateColorRequest request)
         {
             var color = _context.Colors.FirstOrDefault(c => c.Id == request.Id);

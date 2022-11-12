@@ -1,4 +1,5 @@
-﻿// load select by productid and sizeid
+﻿
+// load select by productid and sizeid
 function loadSizeById(id1, id2,e) {
 	$.ajax({
 		type: "GET",
@@ -8,14 +9,14 @@ function loadSizeById(id1, id2,e) {
 			colorId: id2
 		},
 		success: function (data) {
-			$(e).empty();
+			$(e).html("");
 			$.each(data, function (i, item) {
 				var text = '<option value="' + item.id + '"\>' + item.code + '</option>'
 				e.append(text);
 			});
 		},
 		error: function (err) {
-			message("Eror404");
+			message("ERROR", err);
 		}
 	});
 }
@@ -31,11 +32,11 @@ $('body').on('change', '.colours', function () { /// script rren ra seclect 2 ch
 //$('select.colours').on('change', function () {
 	
 //});
-function message(text) {
+function message(title,text) {
 	$('.Label-message-alert').append(
 		"<div class=\"alert alert-success bg-secondary m-0\" role=\"alert\">\r\n" +
 		"<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;<\/span><\/button>\r\n" +
-		"<strong>Success!<\/strong>" + text + "\r\n" +
+		"<strong>" + title + "!<\/strong>" + text + "\r\n" +
 		"<\/div>");
 	window.setTimeout(function () {
 		$(".alert").fadeTo(500, 0).slideUp(500, function () {
@@ -51,35 +52,12 @@ function loadquatity() {
 			$('#TotalItem').text(data);
 		},
 		error: function (err) {
-			console.log(err);
+			message("ERROR",err);
 		}
 	});
 };
 loadquatity();
 /// Add-to-cart
-$('body').on('click', '.btn-add-cart', function (e) {
-	e.preventDefault();
-	const id1 = $(this).data('id');
-	const id2 = $(this).parents(".product-button").find("select.colours").children("option:selected").val()
-	const id3 = $(this).parents(".product-button").find("select.sizes").children("option:selected").val()
-	alert("id1:" + id1 + "id2:" + id2 + "id3:" + id3);
-	$.ajax({
-		type: "POST",
-		url: '/Cart/AddToCart',
-		data: {
-			id1: id1,
-			id2: id2,
-			id3: id3,
-			languageId: "vi"
-		},
-		success: function () {
-			loadquatity();
-			message("Thêm sản phẩm thành công !");
-		},
-		error: function (err) {
-			message(err);
-		}
-	});
-})
+
 
 

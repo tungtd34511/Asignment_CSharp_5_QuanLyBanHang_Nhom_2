@@ -35,7 +35,16 @@ namespace App.API.Services.Catalog.Carts
             if (cart == null) throw new EShopException($"Cannot find a cart");
             return cart;
         }
-
+        public async Task<bool> DeleteByUser(Guid userId)
+        {
+            var cart = await _context.Carts.Where(c => c.UserId == userId).ToListAsync();
+            if (cart == null) throw new EShopException($"Cannot find a cart");
+            foreach (var item in cart)
+            {
+                _context.Carts.Remove(item);
+            }
+            return await _context.SaveChangesAsync() > 0;
+        }
         public async Task<int> UpdateCart(Cart cart)
         {
             _context.Update(cart);

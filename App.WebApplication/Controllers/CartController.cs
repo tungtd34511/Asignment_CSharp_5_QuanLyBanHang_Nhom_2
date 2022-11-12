@@ -26,12 +26,14 @@ namespace App.WebApplication.Controllers
         private readonly IColorApiClient _colorApiClient;
         private readonly ISizeApiClient _sizeApiClient;
         private readonly ICartApiClient _cartApiClient;
+        private readonly IProductVariationApiClient _productVariationApi;
         public CartController(IProductApiClient productApiClient, IColorApiClient colorApiClient, ISizeApiClient sizeApiClient, IProductVariationApiClient productVariationApiClient, ICartApiClient cartApiClient)
         {
             _productApiClient = productApiClient;
             _colorApiClient = colorApiClient;
             _sizeApiClient = sizeApiClient;
             _cartApiClient = cartApiClient;
+            _productVariationApi = productVariationApiClient;
         }
 
         public async Task<IActionResult> Index()
@@ -60,7 +62,7 @@ namespace App.WebApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Checkout([FromForm]CheckoutRequest request) // Forrmform tự động binding dữ liệu từ form
+        public async Task<IActionResult> Checkout([FromForm] CheckoutRequest request) // Forrmform tự động binding dữ liệu từ form
         {
             string Id;
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
@@ -98,12 +100,23 @@ namespace App.WebApplication.Controllers
             }
             checkoutRequest.LastName = request.LastName;
             checkoutRequest.FirstName = request.FirstName;
-          
+
             //TODO: Add to API
             var result = await _cartApiClient.Checkout(checkoutRequest);
             if (result)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    Id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                    await _cartApiClient.DeleteCart(Id);
+                }
+                else
+                {
+                    HttpContext.Session.Remove(SystemConstants.CartSession);
+                }
                 return RedirectToAction("CheckoutSucess");
-            return View(new CheckoutViewModel() { CartItems = currentCart,CheckoutModel = request});
+            }
+            return View(new CheckoutViewModel() { CartItems = currentCart, CheckoutModel = request });
         }
 
         [HttpGet]
@@ -121,37 +134,61 @@ namespace App.WebApplication.Controllers
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
             return Ok(currentCart);
         }
-
+        public async Task<IActionResult> CheckStok(int id1, int id2, int id3)//kiểm tra số lượng
+        {
+            var product = await _productApiClient.GetById(id1, "vi");
+            var pVra = product.ProductVariationVms.FirstOrDefault(c => c.ProductId == id1 && c.ColorId == id2 && c.SizeId == id3);
+            if (pVra == null)
+                return BadRequest();
+            return Ok(pVra.Stock);
+        }
         [HttpPost] // id1: Product, id2: Color, id3: Size
-        public async Task<IActionResult> AddToCart(int id1, int id2,int id3, string languageId="vi")
+        public async Task<IActionResult> AddToCart(int id1, int id2, int id3, int stok = 1, string languageId = "vi")
         {
             var product = await _productApiClient.GetById(id1, languageId);
+            var pVra = product.ProductVariationVms.FirstOrDefault(c => c.ProductId == id1 && c.ColorId == id2 && c.SizeId == id3);
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
             if (User.Identity.IsAuthenticated)
             {
+                
+                if (pVra == null)
+                {
+                    return BadRequest("Update Cart Denied! Something Wrong!");
+                }
                 var Id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                await _cartApiClient.AddToCart(new AddToCartRequest()
+                var carts = await _cartApiClient.GetByUser(Id);
+                var cart = carts.FirstOrDefault(c => c.ProductId == id1 && c.ColorId == id2 && c.SizeId == id3);
+                if (pVra.Stock < stok)
+                {
+                    return BadRequest("Update Cart Denied! Something Wrong!");
+                }
+                var result =  await _cartApiClient.AddToCart(new AddToCartRequest()
                 {
                     SizeId = id3,
-                    Stock = 1,
+                    Stock = stok,
                     ColorId = id2,
                     Price = product.Price,
                     ProductId = product.Id,
                     UserId = Guid.Parse(Id)
                 });
-                return Ok(currentCart);
+                if (result)
+                {
+                    bool result23 = await _productVariationApi.Update(new API.Infrastructure.ViewModels.Catalog.ProductVariations.UpdateProductVariationRequest() { ProductId = pVra.ProductId, ColorId = pVra.ColorId, SizeId = pVra.SizeId, Id = pVra.Id, Stock = (pVra.Stock - stok) });
+                    return Ok(currentCart);
+                }
+                return BadRequest("Update Cart Denied! Something Wrong!");
             }
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            
+
             if (session != null)
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-
-            int quantity = 1;
-            if (currentCart.Any(x => x.ProductId == id1&&x.ColorId==id2&&x.SizeId==id3))
+            //
+            if (currentCart.Any(x => x.ProductId == id1 && x.ColorId == id2 && x.SizeId == id3))
             {
-                currentCart.First(x => x.ProductId == id1 && x.ColorId == id2 && x.SizeId == id3).Quantity ++;
+                currentCart.First(x => x.ProductId == id1 && x.ColorId == id2 && x.SizeId == id3).Quantity += stok;
             }
-            else {  
+            else
+            {
                 var color = await _colorApiClient.GetById(languageId, id2);
                 var size = await _sizeApiClient.GetById(languageId, id3);
                 var cartItem = new CartItemViewModel()
@@ -165,14 +202,19 @@ namespace App.WebApplication.Controllers
                     Image = product.ThumbnailImage,
                     Name = product.Name,
                     Price = product.Price,
-                    Quantity = quantity,
-                    PVId = product.ProductVariationVms.FirstOrDefault(c=>c.ColorId==id2&&c.SizeId==id3).Id,
+                    Quantity = stok,
+                    PVId = product.ProductVariationVms.FirstOrDefault(c => c.ColorId == id2 && c.SizeId == id3).Id,
                     DateCreated = DateTime.Now
                 };
                 currentCart.Add(cartItem);
             }
-            HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
-            return Ok(currentCart);
+            bool result2 = await _productVariationApi.Update(new API.Infrastructure.ViewModels.Catalog.ProductVariations.UpdateProductVariationRequest() { ProductId = pVra.ProductId, ColorId = pVra.ColorId, SizeId = pVra.SizeId, Id = pVra.Id, Stock = (pVra.Stock - stok) });
+            if (result2)
+            {
+                HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
+                return Ok(currentCart);
+            }
+            return BadRequest("Update Cart Denied! Something Wrong!");
         }
         [HttpGet]
         public async Task<IActionResult> GetQuantity()
@@ -182,37 +224,48 @@ namespace App.WebApplication.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var Id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                currentCart =  await _cartApiClient.GetByUser(Id);
-                foreach(var item in currentCart)
+                currentCart = await _cartApiClient.GetByUser(Id);
+                foreach (var item in currentCart)
                 {
-                    count+=item.Quantity;
+                    count += item.Quantity;
                 }
                 return Ok(count);
             }
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            
+
             if (session != null)
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-            
-            foreach(var item in currentCart)
+
+            foreach (var item in currentCart)
             {
                 count += item.Quantity;
             }
             return Ok(count);
         }
-       
+
         [HttpPost]  // id1: Product, id2: Color, id3: Size
         public async Task<IActionResult> UpdateCart(int id1, int id2, int id3, int quantity)
         {
+            var product = await _productApiClient.GetById(id1, "vi");
+            var pVra = product.ProductVariationVms.FirstOrDefault(c => c.ProductId == id1 && c.ColorId == id2 && c.SizeId == id3);
+            if (pVra == null)
+            {
+                return BadRequest("Update Cart Denied! Something Wrong!");
+            }
+            var pvId = pVra.Id;
+            //
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();
             if (User.Identity.IsAuthenticated)
             {
                 var Id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                var product = await _productApiClient.GetById(id1, "vi");
                 var carts = await _cartApiClient.GetByUser(Id);
-                var pvId = product.ProductVariationVms.FirstOrDefault(c => c.ProductId == id1 && c.ColorId == id2 && c.SizeId == id3).Id;
+
                 var cart = carts.FirstOrDefault(c => c.ProductId == id1 && c.ColorId == id2 && c.SizeId == id3);
-                var result =  await _cartApiClient.Update(new UpdateCartRequest()
+                if (pVra.Stock < (quantity - cart.Quantity))
+                {
+                    return BadRequest("Update Cart Denied! Something Wrong!");
+                }
+                var result = await _cartApiClient.Update(new UpdateCartRequest()
                 {
                     DateCreated = (DateTime)cart.DateCreated,
                     ProductVariationId = pvId,
@@ -223,27 +276,40 @@ namespace App.WebApplication.Controllers
                 });
                 if (result)
                 {
+                    bool result2 = await _productVariationApi.Update(new API.Infrastructure.ViewModels.Catalog.ProductVariations.UpdateProductVariationRequest() { ProductId = pVra.ProductId, ColorId = pVra.ColorId, SizeId = pVra.SizeId, Id = pVra.Id, Stock = (pVra.Stock - (quantity - cart.Quantity)) });
                     return Ok();
                 }
-                return BadRequest();
+                return BadRequest("Update Cart Denied! Something Wrong!");
             }
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
             if (session != null)
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
-
+            var CarItem = new CartItemViewModel();
             foreach (var item in currentCart)
             {
-                if (item.ProductId == id1 && item.ColorId==id2&&item.SizeId==id3)
+                if (item.ProductId == id1 && item.ColorId == id2 && item.SizeId == id3)
                 {
+                    CarItem = item;
                     if (quantity == 0)
                     {
                         currentCart.Remove(item);
                         break;
                     }
+                    if (pVra.Stock < (quantity - item.Quantity))
+                    {
+                        return BadRequest("Update Cart Denied! Something Wrong!");
+                    }
                     item.Quantity = quantity;
+
                 }
             }
+            var UpdateStok = await _productVariationApi.Update(new API.Infrastructure.ViewModels.Catalog.ProductVariations.UpdateProductVariationRequest() { ProductId = pVra.ProductId, ColorId = pVra.ColorId, SizeId = pVra.SizeId, Id = pVra.Id, Stock = (pVra.Stock - (quantity - CarItem.Quantity)) });
+            if (!UpdateStok)
+            {
+                return BadRequest("Update Cart Denied! Something Wrong!");
+            }
             HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
+            
             return Ok(currentCart);
         }
 
@@ -265,7 +331,7 @@ namespace App.WebApplication.Controllers
                 return checkoutVm;
             }
             var session = HttpContext.Session.GetString(SystemConstants.CartSession);
-            
+
             if (session != null)
                 currentCart = JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
             checkoutVm.CartItems = currentCart;

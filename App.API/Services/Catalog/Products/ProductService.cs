@@ -17,6 +17,10 @@ using App.API.Services.Catalog.ProductVariations;
 using App.API.Services.Common;
 using Data.DbContext;
 using Data.Entities;
+using App.API.Infrastructure.ViewModels.System.Languages;
+using System.Diagnostics;
+using App.API.Infrastructure.Utilities.Recursives;
+using Microsoft.CodeAnalysis;
 
 namespace App.API.Services.Catalog.Products
 {
@@ -141,17 +145,18 @@ namespace App.API.Services.Catalog.Products
 
         public async Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request)
         {
+            var list1 = await _productVariationService.GetByProductVariationsAsync();
             //1. Select join
-            var query = from p in _context.Products
-                        join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
-                        from pic in ppic.DefaultIfEmpty()
-                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
-                        from c in picc.DefaultIfEmpty()
-                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                        from pi in ppi.DefaultIfEmpty()
-                        where pt.LanguageId == request.LanguageId && pi.IsDefault == true
-                        select new { p, pt, pic, pi };
+            var query = (from p in _context.Products
+                         join pvi in _context.ProductVariations.Select(z => z.ProductId).Distinct() on p.Id equals pvi
+                         join pt in _context.ProductTranslations.Where(c => c.LanguageId == "vi") on p.Id equals pt.ProductId into lpt
+                         from pt in lpt.DefaultIfEmpty()
+                         join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                         from pic in ppic.DefaultIfEmpty()
+                         join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                         from pi in ppi.DefaultIfEmpty()
+                         select new { p, pt, pic, pi });
+
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.pt.Name.Contains(request.Keyword));
@@ -164,7 +169,7 @@ namespace App.API.Services.Catalog.Products
             //3. Paging
             int totalRow = await query.CountAsync();
 
-            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+            var data = query.ToList().Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new ProductVm()
                 {
@@ -181,17 +186,26 @@ namespace App.API.Services.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     ViewCount = x.p.ViewCount,
                     ThumbnailImage = x.pi.ImagePath,
-                    Stock = _context.ProductVariations.Where(c=>c.ProductId==x.p.Id).Select(c=>c.Stock).ToList().AsQueryable().Sum()
-                }).ToListAsync();
-
+                    Stock = _context.ProductVariations.Where(c => c.ProductId == x.p.Id).Select(c => c.Stock).ToList().AsQueryable().Sum(),
+                    ProductVariationVms = list1.Where(c => c.ProductId == x.p.Id && c.Stock>0).ToList(),
+                    Categories = (from c in _context.Categories
+                                  join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
+                                  join pic in _context.ProductInCategories on c.Id equals pic.CategoryId
+                                  where pic.ProductId == x.p.Id && ct.LanguageId == "vi"
+                                  select ct.Name).ToList()
+                });
+            if(request.Checks!=null && request.Checks.Any())
+            {
+                data = data.Where(c => GetResull(c, request.Checks));
+            }
             //4. Select and projection
-            
+
             var pagedResult = new PagedResult<ProductVm>()
             {
                 TotalRecords = totalRow,
                 PageSize = request.PageSize,
                 PageIndex = request.PageIndex,
-                Items = data
+                Items = data.ToList()
             };
             return pagedResult;
         }
@@ -458,14 +472,14 @@ namespace App.API.Services.Catalog.Products
         {
             //1. Select join
             var query = (from p in _context.Products
-                        join pvi in _context.ProductVariations.Select(z=>z.ProductId).Distinct() on p.Id equals pvi
-                        join pt in _context.ProductTranslations.Where(c=>c.LanguageId==languageId) on p.Id equals pt.ProductId into lpt
+                         join pvi in _context.ProductVariations.Select(z => z.ProductId).Distinct() on p.Id equals pvi
+                         join pt in _context.ProductTranslations.Where(c => c.LanguageId == languageId) on p.Id equals pt.ProductId into lpt
                          from pt in lpt.DefaultIfEmpty()
                          join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
-                        from pic in ppic.DefaultIfEmpty()
-                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                        from pi in ppi.DefaultIfEmpty()
-                        select new { p, pt, pic, pi }).ToList();
+                         from pic in ppic.DefaultIfEmpty()
+                         join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                         from pi in ppi.DefaultIfEmpty()
+                         select new { p, pt, pic, pi }).ToList();
 
             var list1 = await _productVariationService.GetByProductVariationsAsync();
             //
@@ -485,10 +499,94 @@ namespace App.API.Services.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     ViewCount = x.p.ViewCount,
                     ThumbnailImage = x.pi.ImagePath,
-                    ProductVariationVms = list1.Where(c=>c.ProductId==x.p.Id).ToList()
-                }).ToList(); 
+                    ProductVariationVms = list1.Where(c => c.ProductId == x.p.Id && c.Stock > 0).ToList()
+                }).ToList();
 
             return data;
+        }
+        public bool GetResull(ProductVm product, List<bool> listCBox)
+        {//Sử dụng đệ quy lấy kết quả cho list điều kiện
+            var dequy = new LstCheckRecursive();
+            int index = 0;
+            List<bool> listMain = new List<bool>();//Tổng kết các kết quả
+            //{ "GIỚI TÍNH", "GIÁ", "NHÓM HÀNG", "TÌNH TRẠNG", "THƯƠNG HIỆU"};
+            //List điều kiện
+            List<bool> listkq2 = new List<bool>();
+            List<decimal> lstGia = new() { 199000, 299000, 399000, 499000, 799000, 999000 };
+            for (int i = 0; i <= lstGia.Count; i++)//đệt mợ cái bug khốn nạn sai dấu >=
+            {
+                if (listCBox[index++])
+                {
+                    if (i == 0)
+                    {
+                        listkq2.Add(product.Price < lstGia[i]);
+                    }
+                    else if (i == lstGia.Count)
+                    {
+                        listkq2.Add(product.Price > lstGia[lstGia.Count - 1]);
+                    }
+                    else
+                    {
+                        listkq2.Add((product.Price >= lstGia[i - 1]) && (product.Price <= lstGia[i]));
+                    }
+                }
+            }
+            if (listkq2.Count > 0)
+            {
+                listMain.Add(dequy.GetBoolHoac(listkq2)); //sử dụng get bool2 vì cùng một nhóm sẽ dùng toán tử hoặc ||
+            }
+            //
+            List<bool> listkq3 = new List<bool>();
+            var cartergories = _context.CategoryTranslations.Where(c => c.LanguageId == "vi").Select(c=>c.Name);
+            foreach (var a in cartergories)
+            {
+                if (listCBox[index++])
+                {
+                    listkq3.Add(product.Categories.Contains(a));
+                }
+            }
+            if (listkq3.Count > 0)
+            {
+                listMain.Add(dequy.GetBoolHoac(listkq3)); //sử dụng get bool2 vì cùng một nhóm sẽ dùng toán tử hoặc ||
+            }
+            //
+            List<bool> listkq4 = new List<bool>();
+            var sizes = _context.Sizes.Select(c => c.Id);
+            var s1 = product.ProductVariationVms.Select(c => c.SizeId);
+            foreach (var a in sizes)
+            {
+                if (listCBox[index++])
+                {
+                    listkq4.Add(s1.Contains(a));
+                }
+            }
+            if (listkq4.Count > 0)
+            {
+                listMain.Add(dequy.GetBoolHoac(listkq4)); //sử dụng get bool2 vì cùng một nhóm sẽ dùng toán tử hoặc ||
+            }
+            //
+            List<bool> listkq5 = new List<bool>();
+            var colors = _context.Colors.Select(c => c.Id);
+            var s2 = product.ProductVariationVms.Select(c => c.ColorId);
+            foreach (var a in colors)
+            {
+                if (listCBox[index++])
+                {
+                    listkq5.Add(s2.Contains(a));
+                }
+            }
+            if (listkq5.Count > 0)
+            {
+                listMain.Add(dequy.GetBoolHoac(listkq5)); //sử dụng get bool2 vì cùng một nhóm sẽ dùng toán tử hoặc ||
+            }
+            if (listMain.Count > 0)
+            {
+                return dequy.GetBoolVa(listMain);//ĐỆ quy giửa các nhóm đệ quy là và và
+            }
+            else
+            {
+                return true;//Hiện thị tất cả nếu không check box nào đc chọn
+            }
         }
     }
 }

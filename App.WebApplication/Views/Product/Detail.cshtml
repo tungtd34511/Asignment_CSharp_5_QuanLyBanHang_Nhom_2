@@ -1,79 +1,159 @@
-﻿@model App.WebApplication.Models.ProductDetailViewModel
+﻿@using Data.Entities
+@model App.WebApplication.Models.ProductDetailViewModel
 
 @{
 	ViewData["Title"] = "Detail";
 	Layout = "_ShopLayout2";
 }
-<div class="m-0 p-0 d-flex mt-3 mb-3">
-	<div class="col-7 row">
-		<div class="pro-img-list col-3">
-			<a href="#">
-				<img src="https://via.placeholder.com/115x100/87CEFA/000000" alt="">
-			</a>
-			<a href="#">
-				<img src="https://via.placeholder.com/115x100/FF7F50/000000" alt="">
-			</a>
-			<a href="#">
-				<img src="https://via.placeholder.com/115x100/20B2AA/000000" alt="">
-			</a>
-			<a href="#">
-				<img src="https://via.placeholder.com/120x100/20B2AA/000000" alt="">
-			</a>
-		</div>
-		<div class="pro-img-details col-9">
-			<img src="C:/Users/taduy/Desktop/Asignment_CSharp_5_QuanLyBanHang_Nhom_2/App.WebApplication/wwwroot/images/banner/vngoods_00_452442.webp" alt="">
-		</div>
+@section Scripts{
+	<script src="~/js/Product/ProductView.js"></script>
+}
+	<div class="Product-view d-flex justify-content-center mt-5 mb-5">
+		<div class="container justify-content-center row ">
+			<div class="d-flex justify-content-start col-12 h6">
+				<p class="m-0"><a href="">Home</a></p>
+				<p class="m-0 px-2">/</p>
+				<p class="m-0">Shopping</p>
+				<p class="m-0 px-2">/</p>
+				<p class="m-0">@Model.Product.Name.ToUpper()</p>
+			</div>
+			<div class="    col-xl-6">
+				<section class="section swiper-container swiper-slider swiper-slider-2 swiper-slider-3" data-loop="true" data-autoplay="5000" data-simulate-touch="false" data-slide-effect="fade">
+					<div class="swiper-wrapper text-sm-left">
+						<div class="swiper-slide context-dark" data-slide-bg="https://localhost:8000/images/banner/Gal-Gadot-Wallpapers-Wallpaper-Cave.jpg">
+							<div class="swiper-slide-caption section-md">
+								<div class="container">
+									<div class="row">
+										<div class="col-sm-8 col-lg-7 offset-lg-1 offset-xxl-0 ">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide context-dark" data-slide-bg="https://localhost:8000/images/banner/FbQ19-qXkAAkazI.webp">
+							<div class="swiper-slide-caption section-md">
+								<div class="container">
+									<div class="row">
+										<div class="col-sm-8 col-lg-7 offset-lg-1 offset-xxl-0 ">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Swiper Pagination-->
+					<div class="swiper-pagination" data-bullet-custom="true"></div>
+					<!-- Swiper Navigation-->
+					<div class="swiper-button-prev">
+						<div class="preview">
+							<div class="preview__img"></div>
+						</div>
+						<div class="swiper-button-arrow"></div>
+					</div>
+					<div class="swiper-button-next">
+						<div class="swiper-button-arrow"></div>
+						<div class="preview">
+							<div class="preview__img"></div>
+						</div>
+					</div>
+				</section>
 
-	</div>
-	<div class="col-5  ">
-		<h4 class="pro-d-title col-12 d-flex justify-content-start p-2 m-0">
-			<a href="#" class="">
-				@Model.Product.Name.ToUpper()
-			</a>
-		</h4>
-		<div class="w-100"></div>
-		<div class="posted_in d-flex justify-content-start p-2 m-0">
-			<strong>Categories:</strong>
-
-			@if (Model.Product.Categories != null && Model.Product.Categories.Count()>0)
-			{
-				foreach (var item in Model.Product.Categories)
-				{
-					<a rel="tag" href="#">
-						@item
+			</div>
+			<div class="  col-xl-6 mb-xl-2  ">
+				<h2 class="product-title  col-12 d-flex justify-content-start p-2 m-0" style="text-align:left;">
+					<a href="#" class="">
+						@Model.Product.Name.ToUpper()
 					</a>
-				}
-			}
-		</div>
-		<div class="w-100"></div>
-		<div class="tagged_as d-flex justify-content-start p-2 m-0"><strong>Tags:</strong><a rel="tag" href="#">@Model.Product.SeoAlias</a>.</div>
-		<div class="w-100"></div>
-		<div class="m-bot15 d-flex justify-content-start p-2 m-0">
-			<strong>Price : </strong> <span class="amount-old mr-2">$544</span>  <span class="pro-price">
+				</h2>
+				<div class="w-100"></div>
 				@{
-					var price = Convert.ToInt32(Model.Product.Price);
-				}@price VNĐ</span></div>
-		<div class="w-100"></div>
-		<div class="d-flex justify-content-start p-2 m-0">
-			<div>
-				<div class="input-group quantity mx-auto justify-content-center">
+				var price = Convert.ToInt32(Model.Product.Price);
+			}
+				<div class="m-bot15 d-flex justify-content-start p-2 m-0 mb-3">
+				<span class="product-price h4">
+						@price VNĐ
+					</span>
+				</div>
+			<hr />
+				<div class="posted_in d-flex justify-content-start p-2 m-0">
+					<strong>Categories:</strong>
+
+				@if (Model.Product.Categories != null && Model.Product.Categories.Count() > 0)
+				{
+					foreach (var item in Model.Product.Categories)
+					{
+						<a rel="tag" href="#">
+							@item
+						</a>
+					}
+				}
+			</div>
+			
+			<div class="w-100"></div>
+			<div class="tagged_as d-flex justify-content-start p-2 m-0"><strong>Tags:</strong><a rel="tag" href="#">@Model.Product.SeoAlias</a></div>
+			<div class="w-100"></div>
+			<div class=" d-flex justify-content-start p-2 m-0"><strong>Description:</strong><div>@Model.Product.SeoDescription</div></div>
+
+			
+			@*////*@
+			@{
+				var colors = Model.Product.ProductVariationVms.Select(c => new Color()
+			{
+				Id = c.ColorId,
+				Name = c.ColorName,
+				HEXCode = c.ColorCode
+			}).DistinctBy(color => color.Id);
+				var sizes = (from sz in Model.Product.ProductVariationVms.Where(c => c.ColorId == (colors.ToList())[0].Id)
+								select new Size()
+						 {
+							 Id = sz.SizeId,
+							 Name = sz.SizeName,
+							 Code = sz.SizeCode
+						 }).DistinctBy(size => size.Id);
+			}
+			@*////*@
+			<div class="w-100 "></div>
+			<hr/>
+			<div class="product-button-2s p-2 d-flex flex-column justify-content-start">
+				<div class="w-100 d-flex flex-row pb-2">
+					<div class="mr-3">
+						<div class="button-wrap d-flex justify-content-start">
+							<select id="@Model.Product.Id" class="colours button button-xs button-default @Model.Product.Id">
+
+								@foreach (var size in colors)
+								{
+									<option value="@size.Id">@size.Name</option>
+								}
+							</select>
+						</div>
+					</div>
+					<div class="">
+						<div class="button-wrap d-flex justify-content-start">
+
+							<select id="@Model.Product.Id" class="sizes button button-xs button-default @Model.Product.Id">
+								@foreach (var size in sizes)
+								{
+									<option value="@size.Id">@size.Code</option>
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="input-group quantity  d-flex justify-content-start">
 					<div class="input-group-btn">
-						<button class="btnMinus btn button button-xs button-secondary button-winona" id="">
+						<button class="btnMinus btn button button-xs button-secondary button-winona" data-id="@Model.Product.Id" id="@Model.Product.Id">
 							<i class="fa fa-minus"></i>
 						</button>
 					</div>
-					<input id="Quantity" style="width: 70px;" type="text" class="  text-center" readonly="true" value="0">
+					<input id="Quantity" style="width: 70px;border:1px solid #ffe745; " type="text" class=" text-center" readonly="true" value="0">
 					<div class="input-group-btn">
-						<button class="btnPlus button button-xs button-secondary button-winona" id="">
+						<button class="btnPlus button button-xs button-secondary button-winona" data-id="@Model.Product.Id" id="@Model.Product.Id">
 							<i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>
+				<div class="button-wrap d-flex justify-content-start pt-0"><a class="btn-add-cart button button-xs button-secondary-2 button-winona" data-id="@Model.Product.Id" href="#">Add to cart</a></div>
 			</div>
 		</div>
-		<div class="w-100 "></div>
-		<p class="d-flex justify-content-start p-2 m-0">
-			<button class="button button-xs button-secondary-2 button-winona" type="button">Add to Cart</button>
-		</p>
 	</div>
 </div>

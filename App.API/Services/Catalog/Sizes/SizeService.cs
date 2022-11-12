@@ -5,7 +5,6 @@ using App.API.Infrastructure.ViewModels.Common;
 using Data.DbContext;
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 namespace App.API.Services.Catalog.Sizes
 {
@@ -77,6 +76,10 @@ namespace App.API.Services.Catalog.Sizes
                 Items = data
             };
             return pagedResult;
+        }
+        public async Task<List<Size>> GetAll()
+        {
+            return await _context.Sizes.ToListAsync();
         }
     }
 }

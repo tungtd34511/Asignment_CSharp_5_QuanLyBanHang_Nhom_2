@@ -11,6 +11,7 @@ namespace App.WebApplication.IServices
     public interface IProductApiClient
     {
         Task<PagedResult<ProductVm>> GetPagings(GetManageProductPagingRequest request);
+        Task<PagedResult<ProductVm>> GetPagings2(GetManageProductPagingRequest request);
 
         Task<bool> CreateProduct(ProductCreateRequest request);
 

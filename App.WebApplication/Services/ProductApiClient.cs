@@ -14,6 +14,9 @@ using App.API.Infrastructure.Utilities.Constants;
 using App.API.Infrastructure.ViewModels.Catalog.Products;
 using App.API.Infrastructure.ViewModels.Common;
 using App.WebApplication.IServices;
+using System.Net.Http.Json;
+using System.Security.Policy;
+using System.Data;
 
 namespace App.WebApplication.Services
 {
@@ -122,6 +125,27 @@ namespace App.WebApplication.Services
                 $"&pageSize={request.PageSize}" +
                 $"&keyword={request.Keyword}&languageId={request.LanguageId}&categoryId={request.CategoryId}");
 
+            return data;
+        }
+        public async Task<PagedResult<ProductVm>> GetPagings2(GetManageProductPagingRequest request)
+        {
+            var sessions = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString(SystemConstants.AppSettings.Token);
+            var languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+
+            
+
+            ///
+            var client = new HttpClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var content = new StringContent(JsonConvert.SerializeObject(request));
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            var response = await client.PostAsync($"/api/products/paging2/", content);
+            var rq = await response.Content.ReadAsStringAsync();
+            var data = JsonConvert.DeserializeObject<PagedResult<ProductVm>>(rq);
             return data;
         }
 

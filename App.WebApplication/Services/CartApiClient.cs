@@ -69,18 +69,8 @@ namespace App.WebApplication.Services
         }
         public async Task<bool> DeleteCart(string userid)
         {
-            var sessions = _httpContextAccessor
-                .HttpContext
-                .Session
-                .GetString(SystemConstants.AppSettings.Token);
-            var languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-
-            var response = await client.DeleteAsync($"/api/Carts/delete-cart/{userid}");
-            return response.IsSuccessStatusCode;
+            var response =   await Delete($"/api/Carts/delete-cart/"+userid);
+            return response;
         }
 
         public async Task<bool> Checkout(CreateOderReqquest request)

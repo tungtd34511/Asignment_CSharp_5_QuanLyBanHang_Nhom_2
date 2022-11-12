@@ -34,7 +34,7 @@ namespace App.API.Services.Catalog.Oders
         {
             AppUser user = new();
             Guid UserId;
-            if (request.UserId != null)
+            if (request.UserId == null)
             {
                 user = new AppUser { FirstName = request.FirstName, LastName = request.LastName, PhoneNumber = request.ShipPhoneNumber, Email = request.ShipEmail };
                 _context.Users.Add(user);

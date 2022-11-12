@@ -9,14 +9,16 @@
 	/*var a = */ /*"https://localhost:7100" + Model.ThumbnailImage ?*/
 	var a = "/images/b94f5226-370c-4d3f-a264-02a4d1a88a79.jpg";
 }
-<div class="col-sm-6 col-lg-4 col-xl-3">
+<div class="col-sm-6 col-lg-4 col-xl-3 miniitem-cart">
 	<!-- Product-->
-	<article class="product wow fadeInLeft p-1 m-1" data-wow-delay=".15s">
+	<article class="product wow fadeInLeft p-2 m-1" data-wow-delay=".15s">
 		<div class="product-figure p-0">
-			<picture>
-				<source srcset="@a" />
-				<img src="@a" alt="">
-			</picture>
+			<article class="thumbnail thumbnail-mary thumbnail-mary-2 wow slideInLeft">
+				<a class="thumbnail-mary-figure" href="@a" data-lightgallery="item"><img src="@a" alt="@Model.ThumbnailImage" style="max-width: 300px; max-height: 300px; object-fit: cover;" /></a>
+					<div class="thumbnail-mary-caption">
+						
+					</div>
+				</article>
 		</div>
 		<h6 class="product-title">@Model.Name.ToUpper()</h6>
 		<div class="product-price-wrap">

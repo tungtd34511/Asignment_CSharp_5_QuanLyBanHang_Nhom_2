@@ -30,7 +30,12 @@ namespace App.API.Controllers
             var products = await _sizeService.GetAllPaging(request);
             return Ok(products);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetAll(string languageId)
+        {
+            var products = await _sizeService.GetAll();
+            return Ok(products);
+        }
         [HttpGet("{sizeId}/{languageId}")]
         public async Task<IActionResult> GetById(int sizeId, string? languageId)
         {

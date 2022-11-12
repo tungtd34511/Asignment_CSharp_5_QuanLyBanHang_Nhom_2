@@ -33,7 +33,7 @@ namespace App.API.Controllers
         }
 
         [HttpGet("{id}/{languageId}")]
-        public async Task<IActionResult> GetById(int id, string? languageId)
+        public async Task<IActionResult> GetById(int id, string languageId = "vi")
         {
             var product = await _productVariationService.GetById(id);
             if (product == null)
@@ -69,13 +69,8 @@ namespace App.API.Controllers
 
         [HttpPut()]
         [Consumes("multipart/form-data")]
-        [Authorize]
         public async Task<IActionResult> Update([FromForm] UpdateProductVariationRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var pv = new ProductVariation()
             {
                 Id = request.ProductId,
@@ -84,7 +79,7 @@ namespace App.API.Controllers
                 ColorId = request.ColorId,
                 Stock = request.Stock
             };
-            var affectedResult = await _productVariationService.Update(pv);
+            var affectedResult =  _productVariationService.Update(pv);
             if (affectedResult == 0)
                 return BadRequest();
             return Ok();

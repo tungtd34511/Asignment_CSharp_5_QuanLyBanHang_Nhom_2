@@ -9,5 +9,6 @@ namespace App.API.Services.Catalog.Carts
         Task<bool> DeleteById(Guid id);
         Task<int> UpdateCart(Cart cart);
         Task<bool> AsyncOnLogin(List<Cart> cart);
+        Task<bool> DeleteByUser(Guid userId);
     }
 }

@@ -18,6 +18,35 @@
 
 }
 	@section Scripts{
+
+	<script src="~/js/slick.js"></script>
+	<script>
+		$('body').on('click', '.btn-add-cart', function (e) {
+	e.preventDefault();
+	const id1 = $(this).data('id');
+	const id2 = $(this).parents(".product-button").find("select.colours").children("option:selected").val()
+	const id3 = $(this).parents(".product-button").find("select.sizes").children("option:selected").val()
+	alert("id1:" + id1 + "id2:" + id2 + "id3:" + id3);
+	$.ajax({
+		type: "POST",
+		url: '/Cart/AddToCart',
+		data: {
+			id1: id1,
+			id2: id2,
+			id3: id3,
+			stok: 1,
+			languageId: "vi"
+		},
+		success: function () {
+			loadquatity();
+			message("SUCCESS","Thêm sản phẩm thành công !");
+		},
+		error: function (err) {
+			message("ERROR", err);
+		}
+	});
+})
+	</script>
 }
 	<!-- Swiper-->
 	<section class="section swiper-container swiper-slider swiper-slider-2 swiper-slider-3" data-loop="true" data-autoplay="5000" data-simulate-touch="false" data-slide-effect="fade">
@@ -28,7 +57,7 @@
 						<div class="row">
 							<div class="col-sm-8 col-lg-7 offset-lg-1 offset-xxl-0 ">
 								<h1 class="oh swiper-title"><span class="d-inline-block text-black" style="color:black;" data-caption-animate="slideInDown" data-caption-delay="0">Quality ingredients</span></h1>
-								<p class="big swiper-text text-black" data-caption-animate="fadeInRight" style="color:black;"data-caption-delay="300">We only choose reputable brands that guarantee quality</p>
+								<p class="big swiper-text text-black" data-caption-animate="fadeInRight" style="color:black;" data-caption-delay="300">We only choose reputable brands that guarantee quality</p>
 								<div class="button-wrap oh"><a class="button button-lg button-primary button-winona button-shadow-2 text-black" href="#" data-caption-animate="slideInUp" data-caption-delay="0">View our shop</a></div>
 							</div>
 						</div>
@@ -107,17 +136,17 @@
 
 	<!-- Our Shop-->
 	<section class="section section-lg bg-default">
-		<div class="container">
+		<div class="container  justify-content-center">
 			<h3 class="oh-desktop"><span class="d-inline-block wow slideInUp">New Products</span></h3>
-			<div class="row row-lg row-30">
+			<div class="Slick-Item-card slick-style-1 row row-lg row-30 ">
 				<!-- Products Start -->
 			@foreach (var item in Model.LatestProducts)
 			{
 				@(await Component.InvokeAsync("CardItem", item))
 			}
+			</div>
 		</div>
-	</div>
-</section>
+	</section>
 
 <!-- Section CTA-->
 <section class="primary-overlay section parallax-container" data-parallax-img="./images/banner/FbQ19-qXkAAkazI.webp">
@@ -198,7 +227,7 @@
 				<h6 class="quote-tara-author">Nguyen Thanh Dat</h6>
 				<div class="quote-tara-status">Idiot3</div>
 			</article>
-		
+
 			<article class="quote-tara">
 				<div class="quote-tara-caption">
 					<div class="quote-tara-text">

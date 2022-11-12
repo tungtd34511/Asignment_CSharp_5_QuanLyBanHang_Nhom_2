@@ -12,5 +12,7 @@ namespace App.API.Infrastructure.ViewModels.Catalog.Products
         public string? LanguageId { get; set; }
 
         public int? CategoryId { get; set; }
+
+        public List<bool>? Checks { get;set; }
     }
 }

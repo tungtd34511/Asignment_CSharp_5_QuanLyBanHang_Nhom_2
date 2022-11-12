@@ -118,7 +118,8 @@ namespace App.API.Services.Catalog.ProductVariations
                                 ColorCode = b.HEXCode,
                                 SizeId = c.Id,
                                 SizeName = c.Name,
-                                SizeCode = c.Code
+                                SizeCode = c.Code,
+                                Stock = a.Stock
                             }).FirstOrDefaultAsync(z => z.Id == id);
             if (pv == null) throw new EShopException($"Cannot find a ProductVariation: {id}");
             return pv;
@@ -130,11 +131,11 @@ namespace App.API.Services.Catalog.ProductVariations
             return request.Id;
         }
 
-        public async Task<int> Update(ProductVariation request)
+        public int Update(ProductVariation request)
         {
-            _context.ProductVariations.Update(request);
-            await _context.SaveChangesAsync();
-            return request.Id;
+            _context.ProductVariations.Attach(request);
+            _context.Entry(request).State = EntityState.Modified;
+            return _context.SaveChanges();
         }
     }
 }

@@ -29,7 +29,12 @@ namespace App.API.Controllers
             var products = await _colorService.GetAllPaging(request);
             return Ok(products);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetAll(string languageId)
+        {
+            var products = await _colorService.GetAll();
+            return Ok(products);
+        }
         [HttpGet("{colorId}")]
         public async Task<IActionResult> GetById(int colorId)
         {

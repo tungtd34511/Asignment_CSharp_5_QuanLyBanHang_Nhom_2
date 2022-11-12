@@ -16,19 +16,19 @@ namespace App.API.Infrastructure.ViewModels.Catalog.Products
         public DateTime DateCreated { set; get; }
 
         public string Name { set; get; }
-        public string Description { set; get; }
-        public string Details { set; get; }
-        public string SeoDescription { set; get; }
-        public string SeoTitle { set; get; }
+        public string? Description { set; get; }
+        public string? Details { set; get; }
+        public string? SeoDescription { set; get; }
+        public string? SeoTitle { set; get; }
 
-        public string SeoAlias { get; set; }
-        public string LanguageId { set; get; }
+        public string? SeoAlias { get; set; }
+        public string? LanguageId { set; get; }
 
         public bool? IsFeatured { get; set; }
 
-        public string ThumbnailImage { get; set; }
+        public string? ThumbnailImage { get; set; }
 
-        public List<string> Categories { get; set; } = new List<string>();
-        public List<ProductVariationVm> ProductVariationVms { get; set; } = new List<ProductVariationVm>();
+        public List<string>? Categories { get; set; } = new List<string>();
+        public List<ProductVariationVm>? ProductVariationVms { get; set; }
     }
 }
