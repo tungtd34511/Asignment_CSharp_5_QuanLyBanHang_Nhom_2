@@ -142,7 +142,15 @@
 							</div>
 							<div class="rd-navbar-project">
 								<div class="rd-navbar-project-header mb-3">
-									<h5 class="rd-navbar-project-title">User</h5>
+									@{
+										var a = User.Identity.IsAuthenticated;
+									}
+									<h5 class="rd-navbar-project-title"> @if(a){
+											<label>@User.Identity.Name</label>
+									}
+									else{
+											<label>User</label>
+									}</h5>
 									<div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-close" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
 										<div class="project-close"><span></span><span></span></div>
 									</div>
@@ -150,11 +158,18 @@
 								<nav id="sidebar">
 									<div class="p-1">
 										<ul class="list-category list-category-down-md-inline-block">
-											<li class="list-category-item wow fadeInRight" role="presentation" data-wow-delay="0s"><a data-toggle="tab" asp-controller="Login" asp-action="Index" aria-expanded="false">Login</a>
-											<li class="list-category-item wow fadeInRight" role="presentation" data-wow-delay=".1s"><a data-toggle="tab" asp-controller="User" asp-action="Logout" aria-expanded="false">Logout</a>
-											<li class="list-category-item wow fadeInRight" role="presentation" data-wow-delay=".2s"><a href="#tabs-4-3" data-toggle="tab">Our Goals</a></li>
-											<li class="list-category-item wow fadeInRight" role="presentation" data-wow-delay=".3s"><a href="#tabs-4-4" data-toggle="tab">Our Values</a></li>
-										</ul><a class="button button-xl button-primary button-winona" href="contacts.html">Contact us</a>
+											@if (!a)
+											{
+												<li class="list-category-item wow fadeInRight" role="presentation" data-wow-delay="0s"><a data-toggle="tab" asp-controller="Login" asp-action="Index" aria-expanded="false">Login</a></li>
+											}
+											else
+											{
+												<li class="list-category-item wow fadeInRight" role="presentation" data-wow-delay=".1s">
+													<a data-toggle="tab" asp-controller="User" asp-action="Logout" aria-expanded="false">Logout</a></li>
+											}
+											
+											
+										</ul>
 									</div>
 								</nav>
 							</div>

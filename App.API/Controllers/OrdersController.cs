@@ -26,7 +26,7 @@ namespace App.API.Controllers
         }
 
         [HttpGet("paging")]
-        public async Task<IActionResult> GetAllPaging([FromQuery] GetCartsRequest request)
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetOrdersRequest request)
         {
             var products = await _orderService.GetAllPaging(request);
             return Ok(products);
@@ -79,10 +79,9 @@ namespace App.API.Controllers
                 return BadRequest();
             return Ok();
         }
-
-        [HttpPut]
+        [HttpPut("update-status")] 
         [Authorize]
-        public async Task<IActionResult> UpdateStatus(DeleteCartRequest request)
+        public async Task<IActionResult> UpdateStatus(UpdateOrderStatusRequest request)
         {
             var isSuccessful = await _orderService.UpdateStatus(request);
             if (isSuccessful)

@@ -6,15 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
+    <title>E-SHOP</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="~/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("StyleSheets", required: false)
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark ">
             <!-- Navbar Brand-->
-            <a class="navbar-brand col-2 ps-3" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand col-2 ps-3" asp-controller="Home" asp-action="Index">E-SHOP</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -24,7 +25,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-	                    <li><hr class="dropdown-divider" /></li>
+	                    <li><div class="p-2 m-2">@User.Identity.Name</div></li>
+                        
 	                    <li>
 		                    <form asp-action="Logout" asp-controller="User">
 			                    <button class="btn btn-success dropdown-item" type="submit"  >Logout</button>
@@ -40,16 +42,12 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Quản Lý Bán Hàng
+                                E-SHOP
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
+                            <div class="sb-sidenav-menu-heading">Khác</div>
+                            
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="layout-static.html">Static Navigation</a>
@@ -98,7 +96,18 @@
                                     </nav>
                                 </div>
                             </nav>
-
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseCategories" aria-expanded="false" aria-controls="pagesCollapseCategories">
+                                    Thể Loại SP
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseCategories" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" asp-controller="Category" asp-action="Index">Danh Sách</a>
+                                        <a class="nav-link" asp-controller="Category" asp-action="Create">Thêm Mới</a>
+                                    </nav>
+                                </div>
+                            </nav>
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                 <a class="nav-link" asp-controller="Contact" asp-action="Index">Liên hệ</a>
                             </nav>
@@ -116,21 +125,10 @@
                             </nav>
 
                             </div>
-                            <div class="sb-sidenav-menu-heading">Tiện ích</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Thống kê
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>
+                            
                         </div>
                     </div>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        E-SHOP
-                    </div>
+                    
                 </nav>
             </div>
 	        <div id="layoutSidenav_content">

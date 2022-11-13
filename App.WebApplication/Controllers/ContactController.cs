@@ -1,6 +1,7 @@
 ﻿using App.API.Infrastructure.ViewModels.Catalog.Contacts;
 using App.WebApplication.IServices;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Helper;
 
@@ -15,7 +16,7 @@ namespace App.WebApplication.Controllers
         {
             _contactApiClien = contactApiClien;
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Index()
         {
             ViewData["lst"] = await _contactApiClien.GetAll();
@@ -25,7 +26,7 @@ namespace App.WebApplication.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Add(ContactAddRequest contactsViewModel)
         {
             if (ModelState.IsValid)
@@ -41,7 +42,7 @@ namespace App.WebApplication.Controllers
             TempData["res"] = "thất bại";
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [Route("/Contact/Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -54,7 +55,7 @@ namespace App.WebApplication.Controllers
             TempData["res"] = "thất bại";
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         [Route("/Contact/Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
@@ -71,7 +72,7 @@ namespace App.WebApplication.Controllers
 
             return View(request);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit(ContactEditRequest contact)
         {

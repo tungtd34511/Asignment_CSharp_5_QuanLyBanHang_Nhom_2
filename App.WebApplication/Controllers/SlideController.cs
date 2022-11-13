@@ -1,6 +1,7 @@
 ﻿using App.API.Infrastructure.ViewModels.Utilities.Slides;
 using App.WebApplication.IServices;
 using App.WebApplication.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.WebApplication.Controllers
@@ -25,7 +26,7 @@ namespace App.WebApplication.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public string Upload(SlideModel model)
         {
             string wwwRootPath = _webHostEnvironment.WebRootPath;
@@ -37,7 +38,7 @@ namespace App.WebApplication.Controllers
             model.ImageFile.CopyTo(fileStream);
             return pathfileimage;
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Add(SlideModel model)
         {
             if (ModelState.IsValid)
@@ -62,7 +63,7 @@ namespace App.WebApplication.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _slideApiClient.Delete(id))
@@ -72,7 +73,7 @@ namespace App.WebApplication.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -89,7 +90,7 @@ namespace App.WebApplication.Controllers
 
             return View(model);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit(SlideModel model)
         {

@@ -27,6 +27,7 @@ namespace App.WebApplication.Controllers
             _logger = logger;
             _cartApiClient = cartApiClient;
         }
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Index()
         {
             var user = User.Identity.Name;
@@ -41,6 +42,7 @@ namespace App.WebApplication.Controllers
             await this.AsyncCart();
             return RedirectToAction("Index", "Shop");
         }
+
         private async Task<bool> AsyncCart()
         {
             List<CartItemViewModel> currentCart = new List<CartItemViewModel>();

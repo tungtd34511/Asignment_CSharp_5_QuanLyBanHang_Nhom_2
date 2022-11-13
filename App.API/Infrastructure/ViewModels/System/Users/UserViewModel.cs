@@ -4,6 +4,6 @@
     {
         public Guid id { get; set; }
 
-        public string ten { get; set; }
+        public string? ten { get; set; }
     }
 }

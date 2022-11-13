@@ -15,11 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddMvc();
 builder.Services.AddHttpClient();
-builder.Services.AddControllersWithViews()
-    .AddRazorOptions(options =>
-    {
-        options.ViewLocationFormats.Add("/{0}.cshtml");
-    });
+builder.Services.AddControllersWithViews();
+
 var mvcBuilder = builder.Services.AddRazorPages();
 if (builder.Environment.IsDevelopment())
 {
@@ -51,7 +48,7 @@ builder.Services.AddTransient<ICartApiClient, CartApiClient>();
 builder.Services.AddTransient<IContactApiClien, ContactsApiClient>();
 builder.Services.AddTransient<IPromotionApiClient, PromotionApiClient>();
 builder.Services.AddTransient<ITransactionApiClient, TransactionApiClient>();
-
+builder.Services.AddTransient<IOrderApiClient, OrderApiClient>();
 // WebSevice
 var cultures = new[]
 {
@@ -101,7 +98,6 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseSession();
 app.UseRequestLocalization();
-app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",

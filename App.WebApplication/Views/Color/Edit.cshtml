@@ -6,32 +6,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Color</h4>
+<div class="container-fluid px-4">
+<h1 class="mt-4">Sửa Màu Sắc</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+        <li class="breadcrumb-item active"><a asp-action="Index">Danh Mục Màu Sắc</a></li>
+        <li class="breadcrumb-item active">Sửa màu sắc @Model.Id</li>
+		</ol>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <div class="form-group p-2">
+                <label asp-for="Name" class="control-label h4"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="HexCode" class="control-label"></label>
+                <div class="form-group p-2">
+                    <label asp-for="HexCode" class="control-label h4"></label>
                 <input asp-for="HexCode" class="form-control" />
                 <span asp-validation-for="HexCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group p-2">
+                    <input type="submit" value="Lưu" class="btn btn-primary "  style="margin-right:5px;" /><a class="btn btn-success" asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
-

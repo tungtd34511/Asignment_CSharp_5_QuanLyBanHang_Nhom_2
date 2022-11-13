@@ -11,12 +11,12 @@ namespace App.WebApplication.Models
 {
     public class ProductDetailViewModel
     {
-        public CategoryVm Category { get; set; }
+        public CategoryVm? Category { get; set; }
 
-        public ProductVm Product { get; set; }
+        public ProductVm? Product { get; set; }
 
-        public List<ProductVm> RelatedProducts { get; set; }
+        public List<ProductVm>? RelatedProducts { get; set; }
 
-        public List<ProductImageViewModel> ProductImages { get; set; }
+        public List<ProductImageViewModel>? ProductImages { get; set; }
     }
 }

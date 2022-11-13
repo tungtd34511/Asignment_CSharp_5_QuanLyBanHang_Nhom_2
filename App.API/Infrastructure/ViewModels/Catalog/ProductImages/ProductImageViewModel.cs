@@ -11,9 +11,9 @@ namespace App.API.Infrastructure.ViewModels.Catalog.ProductImages
 
         public int ProductId { get; set; }
 
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
 
-        public string Caption { get; set; }
+        public string? Caption { get; set; }
 
         public bool IsDefault { get; set; }
 

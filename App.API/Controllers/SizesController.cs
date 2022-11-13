@@ -77,10 +77,10 @@ namespace App.API.Controllers
             return Ok();
         }
 
-        [HttpPut("{sizeId}")]
+        [HttpPut("update")]
         [Consumes("multipart/form-data")]
         [Authorize]
-        public async Task<IActionResult> Update([FromRoute] int sizeId, [FromForm] UpdateSizeRequest request)
+        public async Task<IActionResult> Update([FromForm] UpdateSizeRequest request)
         {
             if (!ModelState.IsValid)
             {

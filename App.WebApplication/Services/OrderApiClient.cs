@@ -2,6 +2,8 @@
 using App.API.Infrastructure.ViewModels.Catalog.Oders;
 using App.API.Infrastructure.ViewModels.Catalog.Products;
 using App.API.Infrastructure.ViewModels.Common;
+using App.API.Services.Catalog.Oders;
+using App.WebApplication.IServices;
 using Data.Enums;
 using Newtonsoft.Json;
 using System;
@@ -12,7 +14,7 @@ using System.Text;
 
 namespace App.WebApplication.Services
 {
-    public class OrderApiClient : BaseApiClient
+    public class OrderApiClient : BaseApiClient, IOrderApiClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -59,9 +61,9 @@ namespace App.WebApplication.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<PagedResult<ProductVm>> GetPagings(GetCartsRequest request)
+        public async Task<PagedResult<OderVm>> GetPagings(GetOrdersRequest request)
         {
-            var data = await GetAsync<PagedResult<ProductVm>>(
+            var data = await GetAsync<PagedResult<OderVm>>(
                 $"/api/Orders/paging?pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}" +
                 $"&keyword={request.Keyword}&languageId={request.LanguageId}");
@@ -70,15 +72,15 @@ namespace App.WebApplication.Services
         }
 
 
-        public async Task<ProductVm> GetById(int id, string languageId)
+        public async Task<OderVm> GetById(int id, string languageId)
         {
-            var data = await GetAsync<ProductVm>($"/api/Orders/{id}/{languageId}");
+            var data = await GetAsync<OderVm>($"/api/Orders/{id}/{languageId}");
 
             return data;
         }
 
 
-        public async Task<bool> UpdateStatus(Guid userId)
+        public async Task<bool> UpdateStatus(UpdateOrderStatusRequest userId)
         {
             var sessions = _httpContextAccessor
                .HttpContext
@@ -90,7 +92,7 @@ namespace App.WebApplication.Services
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.PutAsJsonAsync($"/api/Orders/", userId);
+            var response = await client.PutAsJsonAsync($"/api/Orders/update-status/", userId);
             return response.IsSuccessStatusCode;
         }
     }

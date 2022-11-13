@@ -6,41 +6,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>ProductCreateRequest</h4>
+<div class="container-fluid px-4">
+		<h1 class="mt-4">Sửa Biến Thể Sản Phẩm</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+        <li class="breadcrumb-item active"><a asp-action="Index">Danh Mục Biến Thể</a></li>
+        <li class="breadcrumb-item active">Biến Thể @Model.Id</li>
+		</ol>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <input asp-for="ProductId" class="form-control" />
-                <span asp-validation-for="ProductId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ColorId" class="control-label"></label>
-                <input asp-for="ColorId" class="form-control" />
-                <span asp-validation-for="ColorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SizeId" class="control-label"></label>
-                <input asp-for="SizeId" class="form-control" />
-                <span asp-validation-for="SizeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stock" class="control-label"></label>
+                <input type="hidden" asp-for="SizeId" class="form-control" />
+                <input type="hidden" asp-for="ColorId" class="form-control" />
+                <input type="hidden" asp-for="ProductId" class="form-control" />
+                <div class="form-group p-2">
+                <label asp-for="Stock" class="control-label h4"></label>
                 <input asp-for="Stock" class="form-control" />
                 <span asp-validation-for="Stock" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
+            <div class="form-group p-2">
+                    <input type="submit" value="Update" class="btn btn-primary mr-3" />
+                    <a asp-action="Index" class="btn btn-success">Quay Lại</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>

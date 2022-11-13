@@ -10,6 +10,7 @@ using App.API.Infrastructure.ViewModels.System.Users;
 using App.WebApplication.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace App.WebApplication.Controllers
 {
-    public class UserController : BaseController
+    public class UserController : Controller
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
@@ -32,7 +33,7 @@ namespace App.WebApplication.Controllers
             _configuration = configuration;
             _roleApiClient = roleApiClient;
         }
-
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index(string keyword="", int pageIndex = 1, int pageSize = 10)
         {
             var request = new GetUserPagingRequest()
@@ -49,7 +50,7 @@ namespace App.WebApplication.Controllers
             }
             return View(data.ResultObj);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
@@ -79,7 +80,7 @@ namespace App.WebApplication.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -100,7 +101,7 @@ namespace App.WebApplication.Controllers
             }
             return RedirectToAction("Error", "Home");
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(UserUpdateRequest request)
         {
@@ -124,7 +125,7 @@ namespace App.WebApplication.Controllers
             HttpContext.Session.Remove("Token");
             return RedirectToAction("Index", "Login");
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
@@ -133,7 +134,7 @@ namespace App.WebApplication.Controllers
                 Id = id
             });
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(UserDeleteRequest request)
         {
@@ -150,14 +151,14 @@ namespace App.WebApplication.Controllers
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> RoleAssign(Guid id)
         {
             var roleAssignRequest = await GetRoleAssignRequest(id);
             return View(roleAssignRequest);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> RoleAssign(RoleAssignRequest request)
         {
@@ -177,7 +178,6 @@ namespace App.WebApplication.Controllers
 
             return View(roleAssignRequest);
         }
-
         private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid id)
         {
             var userObj = await _userApiClient.GetById(id);

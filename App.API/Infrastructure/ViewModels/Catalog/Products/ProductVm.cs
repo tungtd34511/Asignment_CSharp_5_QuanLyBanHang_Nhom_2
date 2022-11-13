@@ -15,7 +15,7 @@ namespace App.API.Infrastructure.ViewModels.Catalog.Products
         public int ViewCount { set; get; }
         public DateTime DateCreated { set; get; }
 
-        public string Name { set; get; }
+        public string? Name { set; get; }
         public string? Description { set; get; }
         public string? Details { set; get; }
         public string? SeoDescription { set; get; }

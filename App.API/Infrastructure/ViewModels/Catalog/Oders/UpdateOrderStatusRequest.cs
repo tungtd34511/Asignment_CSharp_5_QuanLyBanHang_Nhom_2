@@ -2,7 +2,7 @@
 
 namespace App.API.Infrastructure.ViewModels.Catalog.Oders
 {
-    public class DeleteCartRequest
+    public class UpdateOrderStatusRequest   
     {
         public int orderId { get;set; }
 

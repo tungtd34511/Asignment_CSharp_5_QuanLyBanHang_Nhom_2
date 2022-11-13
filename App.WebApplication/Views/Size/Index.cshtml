@@ -4,6 +4,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+	Layout = "_Layout";
 }
 @section Scripts{
 	<script>
@@ -13,11 +14,12 @@
     </script>
 }
 <div class="container-fluid px-4">
-	<h1 class="mt-4">Tables</h1>
+	<h1 class="mt-4">Danh Mục Kích Cỡ</h1>
 	<ol class="breadcrumb mb-4">
 		<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
 		<li class="breadcrumb-item active">Danh Mục Kích Cỡ</li>
 	</ol>
+	<hr />
 	@if (ViewBag.SuccessMsg != null)
 	{
 			<div id="msgAlert" class="alert alert-success" role="alert">
@@ -27,7 +29,7 @@
 	<div class="card mb-4">
 		<div class="card-header">
 			<i class="fas fa-table me-1"></i>
-			Danh Mục Kích Cỡ
+			Kích Cỡ
 		</div>
 		<div class="card-body">
 			<div class="card">
@@ -46,7 +48,7 @@
 									</div>
 									<div class="col-md-2">
 										<button type="submit" class="btn btn-primary">Tìm</button>
-										<button type="button" onclick="window.location.href='/Color/Index'" class="btn btn-dark">Reset</button>
+										<button type="button" onclick="window.location.href='/Size/Index'" class="btn btn-dark">Reset</button>
 									</div>
 								</div>
 							</form>
@@ -74,7 +76,7 @@
 							<td>@Html.DisplayFor(modelItem => item.Id)</td>
 							<td>@Html.DisplayFor(modelItem => item.Name)</td>
 							<td>@Html.DisplayFor(modelItem => item.Code)</td>
-							<td><a class="btn btn-primary" asp-route-id="@item.Id" asp-action="Edit">Sửa</a><td/>
+							<td><a class="btn btn-primary" asp-route-id="@item.Id" asp-action="Edit">Sửa</a>
 						</tr>
 					}
 					</tbody>

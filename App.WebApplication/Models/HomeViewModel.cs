@@ -11,10 +11,10 @@ namespace App.WebApplication.Models
 {
     public class HomeViewModel
     {
-        public List<Slide> Slides { get; set; }
+        public List<Slide>? Slides { get; set; }
 
-        public List<ProductVm> FeaturedProducts { get; set; }
+        public List<ProductVm>? FeaturedProducts { get; set; }
 
-        public List<ProductVm> LatestProducts { get; set; }
+        public List<ProductVm>? LatestProducts { get; set; }
     }
 }

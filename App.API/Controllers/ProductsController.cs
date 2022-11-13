@@ -24,7 +24,7 @@ namespace App.API.Controllers
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetManageProductPagingRequest request)
         {
-            var products = await _productService.GetAllPaging(request);
+            var products = await _productService.GetAllPaging2(request);
             return Ok(products);
         }
         [HttpPost("paging2")]
@@ -74,7 +74,7 @@ namespace App.API.Controllers
 
             var product = await _productService.GetById(productId, request.LanguageId);
 
-            return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+            return Ok(productId);
         }
 
         [HttpPut("{productId}")]

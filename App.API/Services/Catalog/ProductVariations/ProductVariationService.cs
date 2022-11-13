@@ -131,11 +131,10 @@ namespace App.API.Services.Catalog.ProductVariations
             return request.Id;
         }
 
-        public int Update(ProductVariation request)
+        public async Task<int> Update(ProductVariation request)
         {
-            _context.ProductVariations.Attach(request);
-            _context.Entry(request).State = EntityState.Modified;
-            return _context.SaveChanges();
+            _context.ProductVariations.Update(request);
+            return await _context.SaveChangesAsync();
         }
     }
 }

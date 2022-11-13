@@ -20,6 +20,7 @@ using Data.Entities;
 using App.API.Infrastructure.ViewModels.Catalog.Oders;
 using Data.Enums;
 using App.API.Infrastructure.ViewModels.System.Languages;
+using System.Security.Cryptography;
 
 namespace App.API.Services.Catalog.Oders
 {
@@ -43,12 +44,12 @@ namespace App.API.Services.Catalog.Oders
             var oder = new Order()
             {
                 OrderDate = DateTime.Now,
-                UserId = request.UserId!=null?(Guid) request.UserId: user.Id,
+                UserId = request.UserId != null ? (Guid)request.UserId : user.Id,
                 Status = request.Status,
                 ShipAddress = request.ShipAddress,
-                ShipEmail=request.ShipEmail,
-                ShipName=request.ShipName,
-                ShipPhoneNumber=request.ShipPhoneNumber,// chưa làm nên mặc định là thành công
+                ShipEmail = request.ShipEmail,
+                ShipName = request.ShipName,
+                ShipPhoneNumber = request.ShipPhoneNumber,// chưa làm nên mặc định là thành công
             };
             _context.Orders.Add(oder);
             await _context.SaveChangesAsync();
@@ -57,7 +58,7 @@ namespace App.API.Services.Catalog.Oders
                 item.OrderId = oder.Id;
                 _context.OrderDetails.Add(item);
             }
-            
+
             await _context.SaveChangesAsync();
             return oder.Id;
         }
@@ -119,7 +120,7 @@ namespace App.API.Services.Catalog.Oders
                                       join c in _context.Colors on pv.ColorId equals c.Id
                                       join s in _context.Sizes on pv.SizeId equals s.Id
                                       join pt in _context.ProductTranslations on pv.ProductId equals pt.ProductId
-                                      where pt.LanguageId == languageId
+                                      where pt.LanguageId == languageId && o.OrderId == oder.Id
                                       select new OderDetailVm
                                       {
                                           ProductId = pv.ProductId,
@@ -153,32 +154,31 @@ namespace App.API.Services.Catalog.Oders
         }
 
 
-        public async Task<bool> UpdateStatus(DeleteCartRequest request)
+        public async Task<bool> UpdateStatus(UpdateOrderStatusRequest request)
         {
             var oder = await _context.Orders.FindAsync(request.orderId);
+            oder.Status = request.status;
             if (oder == null) throw new EShopException($"Cannot find a oder with id: {request.orderId}");
             return await _context.SaveChangesAsync() > 0;
         }
-
-
-        public async Task<PagedResult<OderVm>> GetAllPaging(GetCartsRequest request)
+        public async Task<PagedResult<OderVm>> GetAllPaging(GetOrdersRequest request)
         {
+            //var qery1 = from od in _context.OrderDetails
+            //            join pv in _context.ProductVariations on od.ProductVariationId equals pv.Id
+            //            join c in _context.Colors on pv.ColorId equals c.Id
+            //            join s in _context.Sizes on pv.SizeId equals s.Id
+            //            join pt in _context.ProductTranslations on pv.ProductId equals pt.ProductId
+            //            where pt.LanguageId == "vi"
+            //            select new { odId = od.OrderId, od, pv, c, s, pt };
+         
             //1. Select join
             var query = from o in _context.Orders
-                        join ords in (from ord in (from od in _context.OrderDetails
-                                                   join pv in _context.ProductVariations on od.ProductVariationId equals pv.Id
-                                                   join c in _context.Colors on pv.ColorId equals c.Id
-                                                   join s in _context.Sizes on pv.SizeId equals s.Id
-                                                   join pt in _context.ProductTranslations on pv.ProductId equals pt.ProductId
-                                                   where pt.LanguageId == "vi"
-                                                   select new { od, pv, c, s, pt })
-                                      group ord by ord.od.OrderId into odgroup
-                                      select new { OrderId = odgroup.Key, odgroup = odgroup }) on o.Id equals ords.OrderId
                         join user in _context.Users on o.UserId equals user.Id
-                        select new { o, ords, user };
+                        select new { o,  user };
+
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => (x.user.LastName + x.user.FirstName).ToLower().Contains(request.Keyword.ToLower()));
+                query = query.Where(x => (x.user.LastName + x.user.FirstName).ToLower().Contains(request.Keyword.ToLower()) || x.o.ShipPhoneNumber.Contains(request.Keyword));
 
             //3. Paging
             int totalRow = await query.CountAsync();
@@ -195,25 +195,23 @@ namespace App.API.Services.Catalog.Oders
                     Status = x.o.Status,
                     OrderDate = x.o.OrderDate,
                     UserId = x.o.UserId,
-                    UserName = x.user.UserName,
-                    OrderDetails = (from b in x.ords.odgroup
-                                    select new OderDetailVm
-                                    {
-                                        ProductVariationId = b.pv.Id,
-                                        SizeCode = b.s.Code,
-                                        SizeId = b.s.Id,
-                                        SizeName = b.s.Name,
-                                        Stock = b.pv.Stock,
-                                        ColorCode = b.c.HEXCode,
-                                        ColorId = b.c.Id,
-                                        ColorName = b.c.Name,
-                                        OrderId = b.od.OrderId,
-                                        Price = b.od.Price,
-                                        ProductId = b.pv.ProductId,
-                                        ProductName = b.pt.Name,
-                                        Quantity = b.od.Quantity
-
-                                    }).ToList()
+                    UserName = (x.user.FirstName + x.user.LastName),
+                    //OrderDetails = qery1.Select(c=>new OderDetailVm()
+                    //{
+                    //    ProductVariationId = c.pv.Id,
+                    //    SizeCode = c.s.Code,
+                    //    SizeId = c.s.Id,
+                    //    SizeName = c.s.Name,
+                    //    Stock = c.pv.Stock,
+                    //    ColorCode = c.c.HEXCode,
+                    //    ColorId = c.c.Id,
+                    //    ColorName = c.c.Name,
+                    //    OrderId = c.od.OrderId,
+                    //    Price = c.od.Price,
+                    //    ProductId = c.pv.ProductId,
+                    //    ProductName = c.pt.Name,
+                    //    Quantity = c.od.Quantity
+                    //}).ToList()
                 }).ToListAsync();
 
             //4. Select and projection

@@ -13,10 +13,10 @@ namespace Data.Entities
 
         public Guid UserId { get; set; }
 
-        public virtual ProductVariation ProductVariation { get; set; }
+        public virtual ProductVariation? ProductVariation { get; set; }
 
         public DateTime DateCreated { get; set; }
 
-        public virtual AppUser AppUser { get; set; }
+        public virtual AppUser? AppUser { get; set; }
     }
 }

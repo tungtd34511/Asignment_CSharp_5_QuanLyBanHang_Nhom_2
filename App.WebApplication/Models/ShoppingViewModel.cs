@@ -4,6 +4,6 @@ namespace App.WebApplication.Models
 {
     public class ShoppingViewModel
     {
-        List<ProductVm> productVms { get; set; }
+        List<ProductVm>? productVms { get; set; }
     }
 }

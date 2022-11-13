@@ -1,0 +1,79 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Categories
+@using Data.Enums
+@model CreateCatergoryRequest
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var l1 = ViewBag.Catergories as List<SelectListItem>;
+    var l2 = new List<SelectListItem> {
+        new SelectListItem(){
+            Value = Status.Active.ToString(),
+            Text = Status.Active.ToString()
+        },
+        new SelectListItem(){
+            Value = Status.InActive.ToString(),
+            Text = Status.InActive.ToString()
+        }
+    };
+    var a = 2;
+}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Thêm Thể Loại Sản Phẩm</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+        <li class="breadcrumb-item active"><a asp-action="Index">Danh Mục Thể Loại Sản Phẩm</a></li>
+        <li class="breadcrumb-item active">Thêm Mới</li>
+    </ol>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form  asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group p-2 ">
+                    <label asp-for="Name" class="control-label h4"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group p-2 ">
+                    <label asp-for="SeoAlias" class="control-label h4"></label>
+                    <input class="form-control" asp-for="SeoAlias">
+                    <span asp-validation-for="SeoAlias" class="text-danger"></span>
+                </div>
+                <div class="form-group p-2 ">
+                    <label asp-for="SeoTitle" class="control-label h4"></label>
+                    <input class="form-control" asp-for="SeoTitle">
+                    <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group p-2 ">
+                    <label asp-for="SortOrder" class="control-label h4"></label>
+                    <input class="form-control" asp-for="SortOrder">
+                    <span asp-validation-for="SortOrder" class="text-danger"></span>
+                </div>
+                <div class="form-group p-2 ">
+                    <label asp-for="SeoDescription" class="control-label h4"></label>
+                    <input class="form-control" asp-for="SeoDescription">
+                    <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group p-2 ">
+                    <label asp-for="ParentId" class="control-label h4"></label>
+                    <select asp-for="ParentId" asp-items="l1"></select>
+                    <span asp-validation-for="ParentId" class="text-danger"></span>
+                </div>
+                <div class="form-group p-2 ">
+                    <label asp-for="Status" class="control-label h4"></label>
+                    <select asp-for="Status" asp-items="l2"></select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group p-2">
+                    <button type="submit" class="btn btn-primary">Thêm Mới</button> <a class="btn btn-success" asp-action="Index">Quay Lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+    </div>
+</div>

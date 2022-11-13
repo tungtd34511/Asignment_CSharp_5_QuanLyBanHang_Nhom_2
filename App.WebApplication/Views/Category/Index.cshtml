@@ -1,0 +1,99 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Categories
+@using App.API.Infrastructure.ViewModels.Common
+@model PagedResult<CatergoryVMinAdmin>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "_Layout";
+	
+}
+@section Scripts{
+	<script>
+		setTimeout(function () {
+			$('#msgAlert').fadeOut('slow');
+		}, 2000);
+	</script>
+}
+	<div class="container-fluid px-4">
+		<h1 class="mt-4">Danh Mục Thể Loại Sản Phẩm</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+			<li class="breadcrumb-item active">Danh Mục Thể Loại Sản Phẩmc</li>
+		</ol>
+	@if (ViewBag.SuccessMsg != null)
+	{
+		<div id="msgAlert" class="alert alert-success" role="alert">
+			@ViewBag.SuccessMsg
+		</div>
+	}
+	<div class="card mb-4">
+		<div class="card-header">
+			<i class="fas fa-table me-1"></i>
+			Thể Loại Sản Phẩm
+		</div>
+		<div class="card-body">
+			<div class="card">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-md-3 col-xs-12">
+							<a class="btn btn-success" asp-action="Create" >Tạo mới</a>
+						</div>
+						<div class="col-md-9 col-xs-12">
+							<form asp-action="Index" method="get">
+								<div class="row">
+									<div class="col-md-5">
+									</div>
+									<div class="col-md-5">
+										<input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+									</div>
+									<div class="col-md-2">
+										<button type="submit" class="btn btn-primary">Tìm</button>
+										<button type="button" onclick="window.location.href='/Categories/Index'" class="btn btn-dark">Reset</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<table class="table-responsive table table-bordered">
+					<thead>
+						<tr>
+							<th>
+								Mã
+							</th>
+							<th>
+								Tên
+							</th>
+							<th>
+								Thể Loại Cha
+							</th>
+							<th>
+								Tiêu Đề
+							</th>
+							<th>
+								Khác
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model.Items)
+						{
+							<tr>
+								<td>@Html.DisplayFor(modelItem => item.Id)</td>
+								<td>@Html.DisplayFor(modelItem => item.Name)</td>
+								<td>@Html.DisplayFor(modelItem => item.ParentName)</td>
+								<td>@Html.DisplayFor(modelItem => item.SeoTitle)
+								<td>@Html.DisplayFor(modelItem => item.SeoDescription)</td>
+								
+							</tr>
+						}
+					</tbody>
+				</table>
+				<div class="card-footer">
+					@(await Component.InvokeAsync("Pager", Model))
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

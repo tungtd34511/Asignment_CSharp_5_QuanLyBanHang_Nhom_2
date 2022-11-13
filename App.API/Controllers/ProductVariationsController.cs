@@ -79,8 +79,8 @@ namespace App.API.Controllers
                 ColorId = request.ColorId,
                 Stock = request.Stock
             };
-            var affectedResult =  _productVariationService.Update(pv);
-            if (affectedResult == 0)
+            var affectedResult =  await _productVariationService.Update(pv);
+            if (affectedResult==0)
                 return BadRequest();
             return Ok();
         }

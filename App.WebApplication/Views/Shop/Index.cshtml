@@ -26,7 +26,7 @@
 	const id1 = $(this).data('id');
 	const id2 = $(this).parents(".product-button").find("select.colours").children("option:selected").val()
 	const id3 = $(this).parents(".product-button").find("select.sizes").children("option:selected").val()
-	alert("id1:" + id1 + "id2:" + id2 + "id3:" + id3);
+
 	$.ajax({
 		type: "POST",
 		url: '/Cart/AddToCart',
@@ -102,15 +102,7 @@
 				<div class="col-sm-6 col-lg-4">
 					<div class="oh-desktop">
 						<!-- Services Terri-->
-						<article class="services-terri wow slideInUp">
-							<div class="services-terri-figure">
-								<img src="images/menu-1-370x278.jpg" alt="" width="370" height="278" />
-							</div>
-							<div class="services-terri-caption">
-								<span class="services-terri-icon linearicons-leaf"></span>
-								<h5 class="services-terri-title"><a href="#">Đồ Nam</a></h5>
-							</div>
-						</article>
+					
 					</div>
 				</div>
 			</div>

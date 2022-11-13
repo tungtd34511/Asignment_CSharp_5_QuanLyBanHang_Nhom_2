@@ -1,77 +1,77 @@
 ﻿@model CheckoutViewModel
 @{
-    Layout = "_ShopLayout2";
+	Layout = "_ShopLayout2";
 }
- <!-- Page Header Start -->
-    <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Checkout</p>
-            </div>
-        </div>
-    </div>
-    <!-- Page Header End -->
-
-
-    <!-- Checkout Start -->
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+	<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+		<h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
+		<div class="d-inline-flex">
+			<p class="m-0"><a href="">Home</a></p>
+			<p class="m-0 px-2">-</p>
+			<p class="m-0">Checkout</p>
+		</div>
+	</div>
+</div>
+<!-- Page Header End -->
+<!-- Checkout Start -->
 <form asp-action="Checkout" method="post">
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-        <div class="col-lg-8 card border-0 ">
-            @(await Component.InvokeAsync("BillDetail", Model.CheckoutModel))
-            </div>
-            <div class="col-lg-4">
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="font-weight-medium mb-3">Products</h5>
-                    @{
-                        decimal sumtotal = 0;
-                        decimal tax = 0;
-                    }
-                    @foreach(var item in Model.CartItems){
-                        <div class="d-flex justify-content-between">
-                            <p>@(item.Name + " "+item.ColorName+$"({item.SizeCode})")</p>
-                            <p>@item.Price VNĐ</p>
-                        </div>
-                        sumtotal += item.Price * item.Quantity;
-                    }
-                        <hr class="mt-0">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">@sumtotal VNĐ</h6>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                        
-                        <h6 class="font-weight-medium">
-                            Tax
-                        </h6>
-                            <h6 class="font-weight-medium">@tax VNĐ</h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">@(sumtotal +tax) VNĐ</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Payment</h4>
-                    </div>
-                   
-                    <div class="card-footer border-secondary bg-transparent">
-                        <button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Order</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container-fluid pt-5">
+		<div class="row px-xl-5">
+			<div class="col-lg-8 card border-0 ">
+				@(await Component.InvokeAsync("BillDetail", Model.CheckoutModel))
+			</div>
+			<div class="col-lg-4">
+				<div class="card border-secondary mb-5">
+					<div class="card-header bg-secondary border-0">
+						<h4 class="font-weight-semi-bold m-0">Order Total</h4>
+					</div>
+					<div class="card-body">
+						<h5 class="font-weight-medium mb-3">Products</h5>
+						@{
+							
+							decimal sumtotal = 0;
+							decimal tax = 0;
+						}
+						@foreach (var item in Model.CartItems)
+						{
+							<div class="d-flex justify-content-between">
+								<p>@(item.Name + " " + item.ColorName + $"({item.SizeCode})")</p>
+								<p>@item.Price VNĐ</p>
+							</div>
+							sumtotal += item.Price * item.Quantity;
+						}
+						<hr class="mt-0">
+						<div class="d-flex justify-content-between mb-3 pt-1">
+							<h6 class="font-weight-medium">Subtotal</h6>
+							<h6 class="font-weight-medium">@sumtotal VNĐ</h6>
+						</div>
+						<div class="d-flex justify-content-between">
+
+							<h6 class="font-weight-medium">
+								Tax
+							</h6>
+							<h6 class="font-weight-medium">@tax VNĐ</h6>
+						</div>
+					</div>
+					<div class="card-footer border-secondary bg-transparent">
+						<div class="d-flex justify-content-between mt-2">
+							<h5 class="font-weight-bold">Total</h5>
+							<h5 class="font-weight-bold">@(sumtotal + tax) VNĐ</h5>
+						</div>
+					</div>
+				</div>
+				<div class="card border-secondary mb-5">
+					<div class="card-header bg-secondary border-0">
+						<h4 class="font-weight-semi-bold m-0">Payment</h4>
+					</div>
+
+					<div class="card-footer border-secondary bg-transparent">
+						<button type="submit" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Order</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </form>
-    <!-- Checkout End -->
+<!-- Checkout End -->

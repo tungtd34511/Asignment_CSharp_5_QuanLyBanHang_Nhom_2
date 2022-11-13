@@ -6,9 +6,9 @@
 }
 
 <div class="container-fluid px-4">
-	<h1 class="mt-4">Tables</h1>
+	<h1 class="mt-4">Quản Lý Người Dùng</h1>
 	<ol class="breadcrumb mb-4">
-		<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+		<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
 		<li class="breadcrumb-item active">Quản Lý Người Dùng</li>
 	</ol>
 	@if (ViewBag.SuccessMsg != null)
@@ -67,7 +67,7 @@
 							<td>@Html.DisplayFor(modelItem => item.Email)</td>
 							<td>@item.Dob.ToString("MM/dd/yyyy")</td>
 							<td><a class="btn btn-primary" asp-route-id="@item.Id" asp-action="Edit">Sửa</a></td>
-							<td><a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+							<td><a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id">Chi Tiết</a></td>
 							<td><a class="btn btn-danger " asp-route-id="@item.Id" asp-action="RoleAssign">Quyền</a></td>
 						</tr>
 					}

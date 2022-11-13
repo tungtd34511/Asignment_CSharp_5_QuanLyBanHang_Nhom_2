@@ -22,20 +22,17 @@ namespace App.API.Services.System.Users
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
-        private readonly QLBHContext _db;
 
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
-            IConfiguration config,
-            QLBHContext db
+            IConfiguration config
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
-            _db = db;
         }
 
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
@@ -106,17 +103,7 @@ namespace App.API.Services.System.Users
             return new ApiSuccessResult<UserVm>(userVm);
         }
 
-        public async Task<List<UserViewModel>> GetNameId()
-        {
-            var names = (from a in _db.Users
-                         select new UserViewModel
-                         {
-                             ten = a.FirstName,
-                             id = a.Id,
-                         }).ToList();
-
-            return names;
-        }
+       
 
         public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)
         {

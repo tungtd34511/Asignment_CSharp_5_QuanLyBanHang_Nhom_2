@@ -14,7 +14,7 @@
 			const id1 = $(this).data('id');
 			const id2 = $(this).parents(".product-button").find("select.colours").children("option:selected").val()
 			const id3 = $(this).parents(".product-button").find("select.sizes").children("option:selected").val()
-			alert("id1:" + id1 + "id2:" + id2 + "id3:" + id3);
+		
 			$.ajax({
 				type: "POST",
 				url: '/Cart/AddToCart',
@@ -59,7 +59,7 @@
 			<!-- Price End -->
 			<!-- Color Start -->
 			<div class="border-bottom mb-4 pb-4">
-				<h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
+				<h5 class="font-weight-semi-bold mb-4">Filter by catergory</h5>
 				<div>
 					@foreach (var item in ViewBag.Categories as IEnumerable<SelectListItem>)
 					{
@@ -87,7 +87,7 @@
 			<!-- Size End -->
 			<!-- Size Start -->
 			<div class="mb-5">
-				<h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
+				<h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
 				<div>
 					@foreach (var item in ViewBag.Colors as IEnumerable<SelectListItem>)
 					{

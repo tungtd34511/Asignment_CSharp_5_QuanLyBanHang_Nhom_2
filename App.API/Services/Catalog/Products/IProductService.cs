@@ -24,7 +24,7 @@ namespace App.API.Services.Catalog.Products
         Task AddViewcount(int productId);
 
         Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request);
-
+        Task<PagedResult<ProductVm>> GetAllPaging2(GetManageProductPagingRequest request);
         Task<int> AddImage(int productId, ProductImageCreateRequest request);
 
         Task<int> RemoveImage(int imageId);

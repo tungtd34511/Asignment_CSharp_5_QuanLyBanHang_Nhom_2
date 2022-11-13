@@ -90,7 +90,7 @@ namespace App.WebApplication.Services
             requestContent.Add(new StringContent(size.Id.ToString()), "id");
             requestContent.Add(new StringContent(size.Name), "name");
             requestContent.Add(new StringContent(size.Code), "code");
-            var response = await client.PostAsync($"/api/Sizes/", requestContent);
+            var response = await client.PutAsync($"/api/Sizes/update/", requestContent);
             return response.IsSuccessStatusCode;
         }
     }

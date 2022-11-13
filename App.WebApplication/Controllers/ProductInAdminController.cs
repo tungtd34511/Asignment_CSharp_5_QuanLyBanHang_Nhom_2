@@ -4,6 +4,7 @@ using App.API.Infrastructure.Utilities.Constants;
 using App.API.Infrastructure.ViewModels.Catalog.Products;
 using App.API.Infrastructure.ViewModels.Common;
 using App.WebApplication.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -26,7 +27,7 @@ namespace App.WebApplication.Controllers
             _productApiClient = productApiClient;
             _categoryApiClient = categoryApiClient;
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Index(string? keyword, int? categoryId, int pageIndex = 1, int pageSize = 10)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
@@ -56,13 +57,13 @@ namespace App.WebApplication.Controllers
             }
             return View(data);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
@@ -80,14 +81,14 @@ namespace App.WebApplication.Controllers
             ModelState.AddModelError("", "Thêm sản phẩm thất bại");
             return View(request);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> CategoryAssign(int id)
         {
             var roleAssignRequest = await GetCategoryAssignRequest(id);
             return View(roleAssignRequest);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> CategoryAssign(CategoryAssignRequest request)
         {
@@ -107,7 +108,7 @@ namespace App.WebApplication.Controllers
 
             return View(roleAssignRequest);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -126,7 +127,7 @@ namespace App.WebApplication.Controllers
             };
             return View(editVm);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Edit([FromForm] ProductUpdateRequest request)
@@ -163,7 +164,7 @@ namespace App.WebApplication.Controllers
             }
             return categoryAssignRequest;
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -172,7 +173,7 @@ namespace App.WebApplication.Controllers
                 Id = id
             });
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(ProductDeleteRequest request)
         {

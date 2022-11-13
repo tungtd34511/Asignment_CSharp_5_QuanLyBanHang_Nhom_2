@@ -2,7 +2,7 @@
 
 namespace App.API.Infrastructure.ViewModels.Catalog.Oders
 {
-    public class GetCartsRequest : PagingRequestBase
+    public class GetOrdersRequest : PagingRequestBase
     {
         public string? Keyword { get; set; }
 

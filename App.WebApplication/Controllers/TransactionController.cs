@@ -1,5 +1,6 @@
 ﻿using App.API.Infrastructure.ViewModels.Catalog.Transaction;
 using App.WebApplication.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.WebApplication.Controllers
@@ -22,7 +23,7 @@ namespace App.WebApplication.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -44,7 +45,7 @@ namespace App.WebApplication.Controllers
             ViewData["lstuser"] = await _transactionApiClient.GetUser();
             return View(request);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit(TransactionEditRequest request)
         {
@@ -56,7 +57,7 @@ namespace App.WebApplication.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _transactionApiClient.Delete(id))

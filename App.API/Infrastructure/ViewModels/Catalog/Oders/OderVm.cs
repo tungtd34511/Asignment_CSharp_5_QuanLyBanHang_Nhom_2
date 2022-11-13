@@ -14,6 +14,6 @@ namespace App.API.Infrastructure.ViewModels.Catalog.Oders
         public string? ShipEmail { set; get; }
         public string? ShipPhoneNumber { set; get; }
         public OrderStatus Status { set; get; }
-        public List<OderDetailVm> OrderDetails { get; set; }
+        public List<OderDetailVm>? OrderDetails { get; set; }
     }
 }

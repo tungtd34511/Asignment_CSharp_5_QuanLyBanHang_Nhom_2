@@ -12,6 +12,7 @@ using App.WebApplication.IServices;
 using App.WebApplication.Models;
 using App.WebApplication.Services;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,6 +28,7 @@ namespace App.WebApplication.Controllers
         {
             _colorApiClient = colorApiClient;
         }
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Index(string? keyword, int pageIndex = 1, int pageSize = 10)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
@@ -47,13 +49,13 @@ namespace App.WebApplication.Controllers
             }
             return View(data);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Create(ColorCreateRequest request)
         {
@@ -70,7 +72,7 @@ namespace App.WebApplication.Controllers
             ModelState.AddModelError("", "Thêm màu sắc thất bại");
             return View(request);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -78,7 +80,7 @@ namespace App.WebApplication.Controllers
             var color = new UpdateColorRequest() { Id = product.Id, Name = product.Name, HexCode = product.HEXCode };
             return View(color);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateColorRequest request)
         {

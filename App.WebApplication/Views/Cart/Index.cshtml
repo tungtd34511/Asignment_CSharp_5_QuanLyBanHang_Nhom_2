@@ -61,8 +61,8 @@
 						<tr id="@id">
 							<td class="align-middle">
 								<div class="d-flex flex-row ">
-									<div style="max-width:400px;">
-										<img class="imgprd img-circle" src="@a" alt="@a" style="max-width: 50px; max-height: 50px; object-fit: cover;">
+									<div style="max-width:600px;">
+										<img class="imgprd img-circle" src="@a" alt="@a" style="width: 50px; height: 50px; object-fit: contain;">
 										<span>
 											@item.Name @item.ColorName (@item.SizeCode)
 										</span>
@@ -98,7 +98,10 @@
 						<h5 class="font-weight-bold mr-2">Total:</h5>
 						<h5 id="cart-sum-total" class="font-weight-bold"> @sumtotal VNĐ</h5>
 					</div>
-					<a asp-action="Checkout" asp-controller="Cart" class="button button-primary-2 button-winona my-3 py-3">Checkout</a>
+					@{
+						var i = sumtotal > 0 ? "block" : "none";
+					}
+					<a asp-action="Checkout" asp-controller="Cart" class="btn_check_out button button-primary-2 button-winona my-3 py-3 " style="display:@i;">Checkout</a>
 				</div>
 			</div>
 

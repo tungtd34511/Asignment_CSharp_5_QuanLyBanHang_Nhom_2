@@ -18,7 +18,7 @@ namespace App.API.Services.Catalog.Oders
 
         Task<int> Delete(int Id);
         Task<OderVm> GetById(int id, string languageId);
-        Task<bool> UpdateStatus(DeleteCartRequest request);
-        Task<PagedResult<OderVm>> GetAllPaging(GetCartsRequest request);
+        Task<bool> UpdateStatus(UpdateOrderStatusRequest request);
+        Task<PagedResult<OderVm>> GetAllPaging(GetOrdersRequest request);
     }
 }

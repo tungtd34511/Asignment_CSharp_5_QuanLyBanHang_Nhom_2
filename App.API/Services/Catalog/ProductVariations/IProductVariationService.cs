@@ -13,6 +13,6 @@ namespace App.API.Services.Catalog.ProductVariations
         Task<PagedResult<ProductVariationVm>> GetAllPaging(GetManageProductVariationPagingRequest request);
         Task<ProductVariationVm> GetById(int id);
         Task<int> Create(ProductVariation request);
-        int Update(ProductVariation request);
+        Task<int> Update(ProductVariation request);
     }
 }

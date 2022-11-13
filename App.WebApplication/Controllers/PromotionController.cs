@@ -1,5 +1,6 @@
 ﻿using App.API.Infrastructure.ViewModels.Catalog.Promotion;
 using App.WebApplication.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.WebApplication.Controllers
@@ -12,7 +13,7 @@ namespace App.WebApplication.Controllers
         {
             _promotionApiClient = promotionApiClient;
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Index()
         {
             ViewData["lst"] = await _promotionApiClient.GetAll();
@@ -24,7 +25,7 @@ namespace App.WebApplication.Controllers
 
             return View();
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Add(PromotionAddRequest request)
         {
             if (ModelState.IsValid)
@@ -38,7 +39,7 @@ namespace App.WebApplication.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _promotionApiClient.Delete(id))
@@ -49,7 +50,7 @@ namespace App.WebApplication.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -69,7 +70,7 @@ namespace App.WebApplication.Controllers
             };
             return View(request);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit(PromotionEditRequest request)
         {

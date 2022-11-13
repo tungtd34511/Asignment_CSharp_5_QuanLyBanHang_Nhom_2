@@ -13,18 +13,24 @@ using App.WebApplication.IServices;
 using App.WebApplication.Services;
 using App.API.Infrastructure.ViewModels.Catalog.ProductVariations;
 using App.API.Infrastructure.ViewModels.Catalog.Products;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App.WebApplication.Controllers
 {
     public class ProductVariationController : Controller
     {
         private readonly IProductVariationApiClient  _productVariationApiClient;
-
-        public ProductVariationController(IProductVariationApiClient productVariationApiClient)
+        private readonly IColorApiClient _colorApiClient;
+        private readonly ISizeApiClient _sizeApiClient;
+        private readonly IProductApiClient _productApiClient;
+        public ProductVariationController(IProductVariationApiClient productVariationApiClient, ISizeApiClient sizeApiClient, IColorApiClient colorApiClient, IProductApiClient productApiClient)
         {
             _productVariationApiClient = productVariationApiClient;
+            _sizeApiClient = sizeApiClient;
+            _colorApiClient = colorApiClient;
+            _productApiClient = productApiClient;
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         // GET: ProductVariation
         public async Task<IActionResult> Index(string? keyword, int? productId , int pageIndex = 1, int pageSize = 10)
         {
@@ -39,7 +45,7 @@ namespace App.WebApplication.Controllers
                 ProductId   = productId
             };
             var data = await _productVariationApiClient.GetPagings(request);
-            //ViewBag.Keyword = keyword;
+            ViewBag.Keyword = keyword;
             //ViewBag.Categories = data.Items.Select(x => new SelectListItem()
             //{
             //    Text = x.ColorName,
@@ -53,13 +59,19 @@ namespace App.WebApplication.Controllers
             }
             return View(data);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var l1 = await _colorApiClient.GetAll("vi");
+            var l2 = await _sizeApiClient.GetAll("vi");
+            var l3 = await _productApiClient.GetPagings(new() { PageIndex = 1, PageSize = 99 });
+            ViewBag.Colors = l1;
+            ViewBag.Sizes = l2;
+            ViewBag.Products = l3.Items;
             return View();
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductVariationRequest request)
         {
@@ -69,13 +81,14 @@ namespace App.WebApplication.Controllers
             var result = await _productVariationApiClient.Create(request);
             if (result)
             {
-                TempData["result"] = "Thêm mới bien the thành công";
+                TempData["result"] = "Thêm mới biến thể thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Thêm màu sắc thất bại");
+            ModelState.AddModelError("", "Thêm biến thể thất bại");
             return View(request);
         }
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -83,7 +96,7 @@ namespace App.WebApplication.Controllers
             var pv = new UpdateProductVariationRequest() { Id = product.Id,ProductId = product.ProductId,ColorId = product.ColorId, SizeId =product.SizeId,Stock=product.Stock };
             return View(pv);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateProductVariationRequest request)
         {
@@ -93,11 +106,11 @@ namespace App.WebApplication.Controllers
             var result = await _productVariationApiClient.Update(request);
             if (result)
             {
-                TempData["result"] = "Cập nhật màu sắc thành công";
+                TempData["result"] = "Cập nhật biến thể thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Cập nhật màu sắc thất bại");
+            ModelState.AddModelError("", "Cập nhật biến thể thất bại");
             return View(request);
         }
 

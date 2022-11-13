@@ -2,6 +2,7 @@
 using App.API.Infrastructure.ViewModels.System.Users;
 using App.API.Services.Catalog.Transactions;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace App.API.Controllers
         {
             _transactionServices = transactionServices;
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<List<TransactionViewModel>> GetAll()
         {

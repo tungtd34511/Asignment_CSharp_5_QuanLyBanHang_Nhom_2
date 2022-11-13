@@ -33,7 +33,6 @@ namespace App.WebApplication.Controllers
         private readonly ISizeApiClient _sizeApiClient;
         private readonly ICategoryApiClient _categoryApiClient;
         private readonly IColorApiClient _colorApiClient;
-        private int? _pageindex;
         public ShopController(ILogger<ShopController> logger,
             ISlideApiClient slideApiClient,
             IProductApiClient productApiClient,
@@ -62,7 +61,6 @@ namespace App.WebApplication.Controllers
         }
         public IActionResult SetPageIndex(int index)
         {
-            _pageindex = index;
             HttpContext.Session.SetString("PageIndex", JsonConvert.SerializeObject(index));
             return Ok();
         }
@@ -80,7 +78,7 @@ namespace App.WebApplication.Controllers
             {
                     request.Keyword = shopingResult.Keyword;
                     request.PageIndex =  shopingResult.PageIndex < 1?1: shopingResult.PageIndex;
-                    request.PageSize =  10;
+                    request.PageSize =  16;
                     request.LanguageId = "vi";
                     request.CategoryId = null;
                     request.Checks = shopingResult.Checklists!=null?  shopingResult.Checklists.Select(c => c.Check).ToList():new List<bool>();
@@ -89,7 +87,7 @@ namespace App.WebApplication.Controllers
             {
                 request.Keyword = "";
                 request.PageIndex = 1;
-                request.PageSize = 10;
+                request.PageSize = 16;
                 request.LanguageId = "vi";
                 request.CategoryId = null;
                 request.Checks = new List<bool>();

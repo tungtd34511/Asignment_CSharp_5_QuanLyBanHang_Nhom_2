@@ -1,13 +1,18 @@
 ﻿// id1: Productid, id2: Colorid, id3: Sizeid
 function updateCart(id1, id2, id3, quantity, e) {
     function GetListItems() {
-        alert("1");
+        
         $.ajax({
             type: "GET",
             url: '/Cart/GetListItems',
             success: function (res) {
                 var total = 0;
-
+                if (res.length == 0) {
+                    $("a.btn_check_out").hide();
+                }
+                else {
+                    $("a.btn_check_out").show();
+                }
                 $.each(res, function (i, item) {                   
                     var amount = item.price * item.quantity;
                     if (item.productId == id1 && item.colorId == id2 && id3 == item.sizeId) {
@@ -15,6 +20,7 @@ function updateCart(id1, id2, id3, quantity, e) {
                         $("#td-amount-item" + id1 + id2 + id3).text(amount + " VNĐ");
                     }
                     total += amount;
+                    
                 });
                 $('#cart-sum-total').text(total + " VNĐ");
             },
@@ -22,7 +28,6 @@ function updateCart(id1, id2, id3, quantity, e) {
                 alert(err);
             }
         });
-        alert("1");
     }
     $.ajax({
         type: "POST",

@@ -10,6 +10,7 @@ using App.API.Infrastructure.ViewModels.Sales;
 using App.WebApplication.IServices;
 using App.WebApplication.Models;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -44,13 +45,13 @@ namespace App.WebApplication.Controllers
             }
             return View(data);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateSizeRequest request)
         {
@@ -67,7 +68,7 @@ namespace App.WebApplication.Controllers
             ModelState.AddModelError("", "Thêm kích cỡ thất bại");
             return View(request);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -80,7 +81,7 @@ namespace App.WebApplication.Controllers
             };
             return View(response);
         }
-
+        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit( UpdateSizeRequest request)
         {

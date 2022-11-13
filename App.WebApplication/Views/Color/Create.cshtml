@@ -5,34 +5,37 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="p-2">
-<h1>Create</h1>
-
-<h4>Color</h4>
-<hr />
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Thêm Mới Màu Sắc</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+        <li class="breadcrumb-item active"><a asp-action="Index">Danh Mục Màu Sắc</a></li>
+        <li class="breadcrumb-item active">Thêm Mới </li>
+    </ol>
+    <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Color"  asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group ">
-                <label asp-for="Name" class="control-label"></label>
+                <div class="form-group p-2 ">
+                <label asp-for="Name" class="control-label h4"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group ">
-                <label class="control-label">Mã Hex</label>
+            <div class="form-group p-2 ">
+                <label class="control-label h4">Mã Hex</label>
                     <input class="form-control" asp-for="HexCode">
                 <span asp-validation-for="HexCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <button type="submit"  class="btn btn-primary" >Create</button>
+                <div class="form-group p-2">
+                    <button type="submit" class="btn btn-primary">Thêm Mới</button> <a class="btn btn-success" asp-action="Index">Quay Lại</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    
 </div>
 </div>
 

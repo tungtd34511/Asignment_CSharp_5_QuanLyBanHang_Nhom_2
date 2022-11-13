@@ -5,6 +5,13 @@
     ViewData["Title"] = "Cập nhật người dùng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Scripts{
+	<script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="container-fluid">
 	<h1 class="mt-4">Gán quyền</h1>
 	<ol class="breadcrumb mb-4">
@@ -32,7 +39,7 @@
 					</div>
 				}
 				<div class="form-group">
-					<input type="submit" value="Lưu lại" class="btn btn-primary" />
+					<input type="submit" value="Lưu lại" class="btn btn-primary mt-2" />
 				</div>
 			</form>
 		</div>

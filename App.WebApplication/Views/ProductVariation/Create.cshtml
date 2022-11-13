@@ -1,46 +1,53 @@
 ﻿@using App.API.Infrastructure.ViewModels.Catalog.ProductVariations
+@using App.API.Infrastructure.ViewModels.Catalog.Products
+@using App.API.Infrastructure.ViewModels.Common
+@using Data.Entities
 @model CreateProductVariationRequest
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var l1 = ViewBag.Colors as List<Color>;
+    var l2 = ViewBag.Sizes as List<Size>;
+    var l3 = ViewBag.Products as List<ProductVm>;
 }
-
-<h1>Create</h1>
-
-<h4>ProductCreateRequest</h4>
-<hr />
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Thêm Biến Thể Sản Phẩm</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+        <li class="breadcrumb-item active"><a asp-action="Index">Danh Mục Biến Thể</a></li>
+        <li class="breadcrumb-item active">Thêm Mới</li>
+    </ol>
+    <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <input asp-for="ProductId" class="form-control" />
-                <span asp-validation-for="ProductId" class="text-danger"></span>
+                <div class="form-group p-2">
+                <label asp-for="ProductId" class="control-label h4"></label>
+                <select asp-for="ProductId" asp-items="l3.Select(c=>new SelectListItem{Value=c.Id.ToString(),Text = c.Name})" class="form-control"> </select>
             </div>
-            <div class="form-group">
-                <label asp-for="ColorId" class="control-label"></label>
-                <input asp-for="ColorId" class="form-control" />
-                <span asp-validation-for="ColorId" class="text-danger"></span>
+                <div class="form-group p-2">
+                <label asp-for="ColorId" class="control-label h4"></label>
+                <select asp-for="ColorId" asp-items="l1.Select(c=>new SelectListItem{Value=c.Id.ToString(),Text = c.Name})" class="form-control" > </select>
             </div>
-            <div class="form-group">
-                <label asp-for="SizeId" class="control-label"></label>
-                <input asp-for="SizeId" class="form-control" />
-                <span asp-validation-for="SizeId" class="text-danger"></span>
+            <div class="form-group p-2">
+                    <label asp-for="SizeId" class="control-label h4"></label>
+                <select asp-for="SizeId" asp-items="l2.Select(c=>new SelectListItem{Value=c.Id.ToString(),Text = c.Name})" class="form-control"> </select>
             </div>
-            <div class="form-group">
-                <label asp-for="StocK" class="control-label"></label>
+                <div class="form-group p-2">
+                <label asp-for="StocK" class="control-labe h4l"></label>
                 <input asp-for="StocK" class="form-control" />
                 <span asp-validation-for="StocK" class="text-danger"></span>
             </div>        
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group p-2">
+                    <button type="submit"  class="btn btn-primary mr-2">Thêm Mới </button>
+                    <a class="btn btn-success mr-2" asp-action="Index">Quay Lại</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+</div>
 </div>

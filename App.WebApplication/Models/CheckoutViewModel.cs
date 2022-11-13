@@ -9,8 +9,8 @@ namespace App.WebApplication.Models
 {
     public class CheckoutViewModel
     {
-        public List<CartItemViewModel> CartItems { get; set; }
+        public List<CartItemViewModel>? CartItems { get; set; }
 
-        public CheckoutRequest CheckoutModel { get; set; }
+        public CheckoutRequest? CheckoutModel { get; set; }
     }
 }

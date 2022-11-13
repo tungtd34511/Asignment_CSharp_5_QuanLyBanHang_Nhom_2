@@ -4,6 +4,7 @@
 @{
 	ViewData["Title"] = "Detail";
 	Layout = "_ShopLayout2";
+	var a = "https://localhost:7100/" + Model.Product.ThumbnailImage;
 }
 @section Scripts{
 	<script src="~/js/Product/ProductView.js"></script>
@@ -20,7 +21,7 @@
 			<div class="    col-xl-6">
 				<section class="section swiper-container swiper-slider swiper-slider-2 swiper-slider-3" data-loop="true" data-autoplay="5000" data-simulate-touch="false" data-slide-effect="fade">
 					<div class="swiper-wrapper text-sm-left">
-						<div class="swiper-slide context-dark" data-slide-bg="https://localhost:8000/images/banner/Gal-Gadot-Wallpapers-Wallpaper-Cave.jpg">
+						<div class="swiper-slide context-dark" data-slide-bg="@a">
 							<div class="swiper-slide-caption section-md">
 								<div class="container">
 									<div class="row">

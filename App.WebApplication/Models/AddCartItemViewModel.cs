@@ -9,6 +9,6 @@ namespace App.WebApplication.Models
     {
         public int Id { get; set; }
 
-        public string LanguageId { get; set; }
+        public string? LanguageId { get; set; }
     }
 }

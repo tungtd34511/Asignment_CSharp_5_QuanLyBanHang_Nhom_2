@@ -11,8 +11,8 @@ namespace App.WebApplication.Models
 {
     public class ProductCategoryViewModel
     {
-        public CategoryVm Category { get; set; }
+        public CategoryVm? Category { get; set; }
 
-        public PagedResult<ProductVm> Products { get; set; }
+        public PagedResult<ProductVm>? Products { get; set; }
     }
 }

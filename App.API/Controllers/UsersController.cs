@@ -101,11 +101,11 @@ namespace App.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<List<UserViewModel>> GetNameId()
-        {
-            return await _userService.GetNameId();
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<List<UserViewModel>> GetNameId()
+        //{
+        //    return await _userService.GetNameId();
+        //}
     }
 }

@@ -1,0 +1,322 @@
+﻿@using App.API.Infrastructure.ViewModels.Catalog.Oders
+@model OderVm
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    
+*@
+@{
+    Layout = "_Layout";
+}
+@section StyleSheets{
+   <style>
+        body {
+            background: #eee;
+        }
+        span{
+            color: black;
+        }
+        .main-container {
+            margin-top: 40px;
+        }
+
+        .widget-author {
+            margin-bottom: 58px;
+        }
+
+        .author-card {
+            position: relative;
+            padding-bottom: 48px;
+            background-color: #fff;
+            box-shadow: 0 12px 20px 1px rgba(64, 64, 64, .09);
+        }
+
+            .author-card .author-card-cover {
+                position: relative;
+                width: 100%;
+                height: 100px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+                .author-card .author-card-cover::after {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    content: '';
+                    opacity: 0.5;
+                }
+
+                .author-card .author-card-cover > .btn {
+                    position: absolute;
+                    top: 12px;
+                    right: 12px;
+                    padding: 0 10px;
+                }
+
+            .author-card .author-card-profile {
+                display: table;
+                position: relative;
+                margin-top: -22px;
+                padding-right: 15px;
+                padding-bottom: 16px;
+                padding-left: 20px;
+                z-index: 5;
+            }
+
+                .author-card .author-card-profile .author-card-avatar, .author-card .author-card-profile .author-card-details {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+
+                .author-card .author-card-profile .author-card-avatar {
+                    width: 85px;
+                    border-radius: 50%;
+                    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, .15);
+                    overflow: hidden;
+                }
+
+                    .author-card .author-card-profile .author-card-avatar > img {
+                        display: block;
+                        width: 100%;
+                    }
+
+                .author-card .author-card-profile .author-card-details {
+                    padding-top: 20px;
+                    padding-left: 15px;
+                }
+
+                .author-card .author-card-profile .author-card-name {
+                    margin-bottom: 2px;
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+
+                .author-card .author-card-profile .author-card-position {
+                    display: block;
+                    color: #8c8c8c;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+
+            .author-card .author-card-info {
+                margin-bottom: 0;
+                padding: 0 25px;
+                font-size: 13px;
+            }
+
+            .author-card .author-card-social-bar-wrap {
+                position: absolute;
+                bottom: -18px;
+                left: 0;
+                width: 100%;
+            }
+
+                .author-card .author-card-social-bar-wrap .author-card-social-bar {
+                    display: table;
+                    margin: auto;
+                    background-color: #fff;
+                    box-shadow: 0 12px 20px 1px rgba(64, 64, 64, .11);
+                }
+
+        .btn-style-1.btn-white {
+            background-color: #fff;
+        }
+
+        .list-group-item i {
+            display: inline-block;
+            margin-top: -1px;
+            margin-right: 8px;
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+
+        .mr-1, .mx-1 {
+            margin-right: .25rem !important;
+        }
+
+        .list-group-item.active:not(.disabled) {
+            border-color: #e7e7e7;
+            background: #fff;
+            color: #ac32e4;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .list-group-flush:last-child .list-group-item:last-child {
+            border-bottom: 0;
+        }
+
+        .list-group-flush .list-group-item {
+            border-right: 0 !important;
+            border-left: 0 !important;
+        }
+
+        .list-group-flush .list-group-item {
+            border-right: 0;
+            border-left: 0;
+            border-radius: 0;
+        }
+
+        .list-group-item.active {
+            z-index: 2;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .list-group-item:last-child {
+            margin-bottom: 0;
+            border-bottom-right-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+
+        a.list-group-item, .list-group-item-action {
+            color: #404040;
+            font-weight: 600;
+        }
+
+        .list-group-item {
+            padding-top: 16px;
+            padding-bottom: 16px;
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            border: 1px solid #e7e7e7 !important;
+            border-radius: 0 !important;
+            color: #404040;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: .75rem 1.25rem;
+            margin-bottom: -1px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,0.125);
+        }
+
+   </style>
+}
+@section Scripts{
+	
+}
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Hóa Đơn</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+            <li class="breadcrumb-item active"><a asp-controller="Order" asp-action="Index">Hóa đơn</a></li>
+            <li class="breadcrumb-item active">Hóa đơn @Model.Id</li>
+        </ol>
+
+        <div class="container mb-4 main-container">
+            <div class="row">
+                <div class="col-lg-4 pb-5">
+                    <!-- Account Sidebar-->
+                    <div class="author-card pb-3">
+                        <div class="author-card-cover" style="background-image: url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);"><a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title=><i class="fa fa-award text-md"></i></a></div>
+                        <div class="author-card-profile">
+                            <div class="author-card-avatar">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Daniel Adams">
+                            </div>
+                            <div class="author-card-details">
+                                <h5 class="author-card-name text-lg">@Model.UserName</h5><span class="author-card-position"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wizard">
+                        <nav class="list-group list-group-flush">
+                            <a class="list-group-item active" href="#">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa fa-shopping-bag mr-1 text-muted"></i>
+                                        <div class="d-inline-block font-weight-medium text-uppercase ">Số lượng Oder</div>
+                                    </div><span >@Model.OrderDetails.Select(c=>c.Quantity).Sum()</span>
+                                </div>
+                            </a>
+                            <a class="list-group-item" href="#" tagert="__blank">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa fa-heart mr-1 text-muted"></i>
+                                        <div class="d-inline-block font-weight-medium text-uppercase">Số điện thoại</div>
+                                    </div><div >@Model.ShipPhoneNumber</div>
+                                </div>
+                            </a>
+                            <a class="list-group-item" href="#">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa fa-heart mr-1 text-muted"></i>
+                                        <div class="d-inline-block font-weight-medium text-uppercase ">Địa Chỉ</div>
+                                    </div>
+                                    
+                                </div>
+                                    <div class="w-100 mt-2">@Model.ShipAddress</div>
+                            </a>
+                            <a class="list-group-item" href="#">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa fa-heart mr-1 text-muted"></i>
+                                        <div class="d-inline-block font-weight-medium text-uppercase">Ngày tạo</div>
+                                    </div><div >@Model.OrderDate</div>
+                                </div>
+                            </a>
+                            <a class="list-group-item" href="#">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa fa-heart mr-1 text-muted"></i>
+                                        <div class="d-inline-block font-weight-medium text-uppercase">Tổng Tiền</div>
+                                    </div><div class="">@Model.OrderDetails.Select(c=>c.Quantity*c.Price).Sum()</div>
+                                </div>
+                            </a>
+                            <a class="list-group-item" href="#">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa fa-heart mr-1 text-muted"></i>
+                                        <div class="d-inline-block font-weight-medium text-uppercase">Trạng Thái đơn</div>
+                                    </div><div class="">@Model.Status</div>
+                                </div>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Orders Table-->
+                <div class="col-lg-8 pb-5">
+                    <div class="d-flex justify-content-end pb-3">
+                       
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Mã SP</th>
+                                    <th>Tên</th>
+                                    <th>Giá</th>
+                                    <th>Số Lượng</th>
+                                    <th>Thành Tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                <tr>
+                                    <td><a class="navi-link" href="#order-details" data-toggle="modal">@item.ProductId</a></td>
+                                    <td>@(item.ProductName+" " + item.ColorName +" "+"(Size:"+item.SizeCode+ ")")</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Quantity</td>
+                                    <td><span> @(item.Quantity*item.Price) VNĐ</span></td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

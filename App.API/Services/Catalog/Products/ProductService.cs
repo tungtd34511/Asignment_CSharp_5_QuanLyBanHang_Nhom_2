@@ -194,7 +194,75 @@ namespace App.API.Services.Catalog.Products
                                   where pic.ProductId == x.p.Id && ct.LanguageId == "vi"
                                   select ct.Name).ToList()
                 });
-            if(request.Checks!=null && request.Checks.Any())
+            data = data.DistinctBy(c => c.Id);
+            if (request.Checks!=null && request.Checks.Any())
+            {
+                data = data.Where(c => GetResull(c, request.Checks));
+            }
+            //4. Select and projection
+
+            var pagedResult = new PagedResult<ProductVm>()
+            {
+                TotalRecords = totalRow,
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
+                Items = data.ToList()
+            };
+            return pagedResult;
+        }
+        public async Task<PagedResult<ProductVm>> GetAllPaging2(GetManageProductPagingRequest request)
+        {
+            var list1 = await _productVariationService.GetByProductVariationsAsync();
+            //1. Select join
+            var query = (from p in _context.Products
+                         join pt in _context.ProductTranslations.Where(c => c.LanguageId == "vi") on p.Id equals pt.ProductId into lpt
+                         from pt in lpt.DefaultIfEmpty()
+                         join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                         from pic in ppic.DefaultIfEmpty()
+                         join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                         from pi in ppi.DefaultIfEmpty()
+                         select new { p, pt, pic, pi });
+
+            //2. filter
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(x => x.pt.Name.Contains(request.Keyword));
+
+            if (request.CategoryId != null && request.CategoryId != 0)
+            {
+                query = query.Where(p => p.pic.CategoryId == request.CategoryId);
+            }
+            
+            //3. Paging
+            int totalRow = await query.CountAsync();
+
+            var data = query.ToList().Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new ProductVm()
+                {
+                    Id = x.p.Id,
+                    Name = x.pt.Name,
+                    DateCreated = x.p.DateCreated,
+                    Description = x.pt.Description,
+                    Details = x.pt.Details,
+                    LanguageId = x.pt.LanguageId,
+                    OriginalPrice = x.p.OriginalPrice,
+                    Price = x.p.Price,
+                    SeoAlias = x.pt.SeoAlias,
+                    SeoDescription = x.pt.SeoDescription,
+                    SeoTitle = x.pt.SeoTitle,
+                    ViewCount = x.p.ViewCount,
+                    ThumbnailImage = x.pi.ImagePath,
+                    Stock = _context.ProductVariations.Where(c => c.ProductId == x.p.Id).Select(c => c.Stock).ToList().AsQueryable().Sum(),
+                    ProductVariationVms = list1.Where(c => c.ProductId == x.p.Id && c.Stock > 0).ToList(),
+                    Categories = (from c in _context.Categories
+                                  join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
+                                  join pic in _context.ProductInCategories on c.Id equals pic.CategoryId
+                                  where pic.ProductId == x.p.Id && ct.LanguageId == "vi"
+                                  select ct.Name).ToList()
+                });
+
+            data = data.DistinctBy(c => c.Id);
+            if (request.Checks != null && request.Checks.Any())
             {
                 data = data.Where(c => GetResull(c, request.Checks));
             }

@@ -5,72 +5,74 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>ProductCreateRequest</h4>
+<div class="container-fluid px-4">
+<h1 class="mt-4">Thêm Sản Phẩm</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang Chủ</a></li>
+        <li class="breadcrumb-item active"><a asp-action="Index">Sản Phẩm</a></li>
+        <li class="breadcrumb-item active">Thêm sản phẩm </li>
+		</ol>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form  asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
+                <div class="form-group p-2">
+                    <label asp-for="Price" class="control-label h4"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="OriginalPrice" class="control-label"></label>
+            <div class="form-group p-2">
+                    <label asp-for="OriginalPrice" class="control-label h4"></label>
                 <input asp-for="OriginalPrice" class="form-control" />
                 <span asp-validation-for="OriginalPrice" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <div class="form-group p-2">
+                    <label asp-for="Name" class="control-label h4"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <div class="form-group p-2">
+                    <label asp-for="Description" class="control-label h4"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Details" class="control-label"></label>
+                <div class="form-group p-2">
+                    <label asp-for="Details" class="control-label h4"></label>
                 <input asp-for="Details" class="form-control" />
                 <span asp-validation-for="Details" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SeoDescription" class="control-label"></label>
+                <div class="form-group p-2">
+                    <label asp-for="SeoDescription" class="control-label h4"></label>
                 <input asp-for="SeoDescription" class="form-control" />
                 <span asp-validation-for="SeoDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SeoTitle" class="control-label"></label>
+                <div class="form-group p-2">
+                    <label asp-for="SeoTitle" class="control-label h4"></label>
                 <input asp-for="SeoTitle" class="form-control" />
                 <span asp-validation-for="SeoTitle" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SeoAlias" class="control-label"></label>
+            <div class="form-group p-2">
+                <label asp-for="SeoAlias" class="control-label h4"></label>
                 <input asp-for="SeoAlias" class="form-control" />
                 <span asp-validation-for="SeoAlias" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LanguageId" class="control-label"></label>
-                <input asp-for="LanguageId" class="form-control" />
-                <span asp-validation-for="LanguageId" class="text-danger"></span>
+            <div class="form-group p-2">
+                    <label asp-for="ThumbnailImage" class="control-label h4"></label>
+                <input asp-for="ThumbnailImage" class="form-control" />
+                    <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IsFeatured" class="control-label"></label>
-                <input asp-for="IsFeatured" class="form-control" />
-                <span asp-validation-for="IsFeatured" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                
+         
+            <div class="form-group p-2">
+                    <input type="submit" value="Thêm Mới" class="btn btn-primary mr-3" /> <a class="btn btn-success" asp-action="Index">Quay Lại</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+   
 </div>
 
+</div>

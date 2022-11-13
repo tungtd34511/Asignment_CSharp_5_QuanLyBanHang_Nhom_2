@@ -23,13 +23,13 @@ namespace App.API.Infrastructure.ViewModels.Catalog.Promotion
         public decimal? DiscountAmount { set; get; }
 
         [Required(ErrorMessage = "Sản phẩm không được để trống")]
-        public string ProductIds { set; get; }
+        public string? ProductIds { set; get; }
 
         [Required(ErrorMessage = "danh mục sản phẩm không được để trống")]
-        public string ProductCategoryIds { set; get; }
+        public string? ProductCategoryIds { set; get; }
 
         [Required(ErrorMessage = "Tên không được để trống")]
-        public string Name { set; get; }
+        public string? Name { set; get; }
 
     }
 }
