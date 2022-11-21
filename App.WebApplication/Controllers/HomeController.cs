@@ -27,7 +27,7 @@ namespace App.WebApplication.Controllers
             _logger = logger;
             _cartApiClient = cartApiClient;
         }
-        [Authorize(Roles = "admin,nhanvien")]
+       
         public async Task<IActionResult> Index()
         {
             var user = User.Identity.Name;

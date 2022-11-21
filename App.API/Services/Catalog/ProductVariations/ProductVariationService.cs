@@ -133,7 +133,10 @@ namespace App.API.Services.Catalog.ProductVariations
 
         public async Task<int> Update(ProductVariation request)
         {
-            _context.ProductVariations.Update(request);
+            var re = _context.ProductVariations.FirstOrDefault(c=>(c.ColorId==request.ColorId&&c.SizeId==request.SizeId&&request.ProductId==c.ProductId)||request.Id==c.Id);
+            re.Stock = request.Stock;
+            var a=  _context.ProductVariations.Update(re);
+            var b = a;
             return await _context.SaveChangesAsync();
         }
     }

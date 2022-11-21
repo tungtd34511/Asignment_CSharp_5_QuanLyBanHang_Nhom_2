@@ -183,7 +183,7 @@ namespace App.API.Services.Catalog.Oders
             //3. Paging
             int totalRow = await query.CountAsync();
 
-            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+            var data = await query.OrderBy(c=>c.o.Id).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new OderVm()
                 {

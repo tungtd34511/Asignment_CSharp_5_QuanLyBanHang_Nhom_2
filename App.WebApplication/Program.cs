@@ -29,7 +29,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Login/Index";
+        options.LoginPath = "/Login";
         options.AccessDeniedPath = "/User/Forbidden/";
     });
 //AdminServices

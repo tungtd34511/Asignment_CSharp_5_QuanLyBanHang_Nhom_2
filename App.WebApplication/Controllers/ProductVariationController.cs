@@ -30,7 +30,6 @@ namespace App.WebApplication.Controllers
             _colorApiClient = colorApiClient;
             _productApiClient = productApiClient;
         }
-        [Authorize(Roles = "admin,nhanvien")]
         // GET: ProductVariation
         public async Task<IActionResult> Index(string? keyword, int? productId , int pageIndex = 1, int pageSize = 10)
         {
@@ -59,7 +58,6 @@ namespace App.WebApplication.Controllers
             }
             return View(data);
         }
-        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -71,7 +69,6 @@ namespace App.WebApplication.Controllers
             ViewBag.Products = l3.Items;
             return View();
         }
-        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductVariationRequest request)
         {
@@ -88,7 +85,6 @@ namespace App.WebApplication.Controllers
             ModelState.AddModelError("", "Thêm biến thể thất bại");
             return View(request);
         }
-        [Authorize(Roles = "admin,nhanvien")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -96,7 +92,6 @@ namespace App.WebApplication.Controllers
             var pv = new UpdateProductVariationRequest() { Id = product.Id,ProductId = product.ProductId,ColorId = product.ColorId, SizeId =product.SizeId,Stock=product.Stock };
             return View(pv);
         }
-        [Authorize(Roles = "admin,nhanvien")]
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateProductVariationRequest request)
         {
